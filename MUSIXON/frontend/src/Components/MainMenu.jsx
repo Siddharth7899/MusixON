@@ -10,6 +10,8 @@ import {FiCheck} from "react-icons/fi"
 import {FaArrowCircleRight} from "react-icons/fa"
 import {FaArrowCircleLeft} from "react-icons/fa"
 import SliderList from "./SliderContent"
+import Login from './Login';
+import { Link,Outlet } from "react-router-dom";
 
 function MainMenu() {
   //slider state hook
@@ -29,26 +31,37 @@ function MainMenu() {
        }
     }
   
-  const[token,setToken] = useState('');
-  useEffect(()=>{
+  // const[token,setToken] = useState('');
+  // useEffect(()=>{
 
-    axios("https://accounts.spotify.com/api/token",{
-      "method" : "POST",
-      "headers" : {
-        "content-type": "application/x-www-form-urlencoded",
-        "Authorization": "Basic " + ("ddb448ccbaf141f6871b1018c54075fd"+ ":" +"8f4f4af304dd404ea4540d52f2850f43"),
-      },
-      "data": "grant_type=client_credientials"
-    }).then(tokenresponse=>{
-      console.log(tokenresponse.data.access_token);
-      setToken(tokenresponse.data.access_token);
-    }).catch(error=>console.log(error))
+  //   axios("https://accounts.spotify.com/api/token",{
+  //     "method" : "POST",
+  //     "headers" : {
+  //       "content-type": "application/x-www-form-urlencoded",
+  //       "Authorization": "Basic " + ("ddb448ccbaf141f6871b1018c54075fd"+ ":" +"8f4f4af304dd404ea4540d52f2850f43"),
+  //     },
+  //     "data": "grant_type=client_credientials"
+  //   }).then(tokenresponse=>{
+  //     console.log(tokenresponse.data.access_token);
+  //     setToken(tokenresponse.data.access_token);
+  //   }).catch(error=>console.log(error))
 
-  },[])
+  // },[])
+  
+  const[loginPopup,setLoginPopup] = useState(false);
 
   return (
     <div className="mn_menu">
       <div className="sliderContainer">
+      <div className="topEffect">
+         <div className="lg-sg">
+           <a href="#" onClick={()=>setLoginPopup(true)}>Login</a>
+           <Login 
+             open={loginPopup}
+             close={()=>setLoginPopup(false)}
+           />
+         </div>
+      </div>
           {
             SliderList && SliderList.map((obj,index)=>(
               <div className={slideIndex===index+1 ? "slides fade" : "slide"} key={obj.id}>

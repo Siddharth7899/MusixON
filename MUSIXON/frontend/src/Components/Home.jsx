@@ -5,13 +5,17 @@ import "../Styles_sheet/leftSidebar.css";
 import NavBarList from './NavBarList';
 import MyPlaylist from './MyPlaylist';
 import UserPlaylist from './UserPlaylist';
+import { Link } from "react-router-dom"
+import Artists from './Artists';
+import MainMenu from './MainMenu';
+import Login from './Login';
 
-function LeftSidebar() {
+function Home() {
   
   //Adding active class on the navbars
   useEffect(()=>{
     const allAnchor = document.querySelector(".lf_menu .sectionContainer").querySelectorAll("a");
-    
+       
     function changeActive(){
       allAnchor.forEach((i)=>i.classList.remove("active"));
       this.classList.add("active");
@@ -36,10 +40,10 @@ function LeftSidebar() {
       {
         NavBarList && NavBarList.map((obj)=>(
           <div className="chSecContaier" key={obj.id}>
-          <a  href="#">
+          <Link to={`/${obj.name}`}>
           <i className='sec-logo'> {obj.icon} </i>
           <span className="sec-head"> {obj.name} </span>
-          </a>
+          </Link>
           </div>
         ))
       }
@@ -49,4 +53,4 @@ function LeftSidebar() {
   );
 }
 
-export default LeftSidebar;
+export default Home;
