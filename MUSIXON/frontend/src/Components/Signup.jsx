@@ -53,7 +53,7 @@ function Signup({signup}) {
            </div>
            <div className="lg sg">
               <h2>Confirm Password</h2>
-              <input type="password" name="password" placeholder="Re-Enter Password" onChange={handleChange}/>
+              <input type="password" name="confirmpassword" placeholder="Re-Enter Password" onChange={handleChange}/>
            </div>
            <div className="lg">
               <input type="submit" value="SignUp"  />

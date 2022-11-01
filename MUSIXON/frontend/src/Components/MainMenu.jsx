@@ -12,8 +12,11 @@ import {FaArrowCircleLeft} from "react-icons/fa"
 import SliderList from "./SliderContent"
 import Login from './Login';
 import { Link,Outlet } from "react-router-dom";
+import Recently from './Recently';
+import Trending from './Trending';
+import CurrentPlayingSong from "./CurrentPlayingSong";
 
-function MainMenu() {
+function MainMenu({letsPlay}) {
   //slider state hook
   const[slideIndex,setSlideIndex] = useState(1);
     const nextSlide = ()=>{
@@ -31,24 +34,15 @@ function MainMenu() {
        }
     }
   
-  // const[token,setToken] = useState('');
-  // useEffect(()=>{
-
-  //   axios("https://accounts.spotify.com/api/token",{
-  //     "method" : "POST",
-  //     "headers" : {
-  //       "content-type": "application/x-www-form-urlencoded",
-  //       "Authorization": "Basic " + ("ddb448ccbaf141f6871b1018c54075fd"+ ":" +"8f4f4af304dd404ea4540d52f2850f43"),
-  //     },
-  //     "data": "grant_type=client_credientials"
-  //   }).then(tokenresponse=>{
-  //     console.log(tokenresponse.data.access_token);
-  //     setToken(tokenresponse.data.access_token);
-  //   }).catch(error=>console.log(error))
-
-  // },[])
   
   const[loginPopup,setLoginPopup] = useState(false);
+
+  const[nowPlaying,setNowPlaying] = useState();
+  
+  function handleNowPlaying(obj){
+    setNowPlaying(()=>obj);
+    return letsPlay(nowPlaying);
+  }
 
   return (
     <div className="mn_menu">
@@ -88,6 +82,9 @@ function MainMenu() {
               ))
             }
         <div className="btmEffect"></div>
+      </div>
+      <div className="songs-container">
+      <Recently currSong={handleNowPlaying}/>
       </div>
     </div>
   )

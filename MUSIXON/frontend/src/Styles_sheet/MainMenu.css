@@ -2,8 +2,9 @@
     z-index: 1;
     height: 100vh;
     flex-grow: 1;
-    background: rgba(34,34,34,0.6);
-    backdrop-filter: blur(10px);
+    /* background: rgba(34,34,34,0.6);
+    backdrop-filter: blur(10px); */
+    /* overflow-y: scroll; */
 }
 
 .mn_menu .sliderContainer{
@@ -148,4 +149,106 @@
 
 .slide{
     display: none;
+}
+
+/* Desigining the Recently section */
+ /* .mn_menu .song-container{
+   position: relative;
+   overflow-y: scroll;
+}  */
+.mn_menu .songs-container{
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.mn_menu .songs-container .songs-card{
+    /* position: relative; */
+    display: flex;
+    height: 250px;
+    margin: 12px;
+    justify-content: space-between;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    /* margin: auto; */
+}
+
+.mn_menu .songs-container .songs-card .songs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 250px;
+    max-height:300px;
+    width: 170px;
+    background-color: rgb(20, 18, 18);
+    border-radius: 10px;
+}
+
+.mn_menu .songs-container .songs-card .songs i{
+    position: absolute;
+    /* font-size: 32px; */
+    color: rgb(0, 101, 0);
+    font-size: 0px;
+    margin-top: 90px;
+    margin-left: 120px;
+}
+
+
+.mn_menu .songs-container .songs-card .songs:hover
+{
+    background-color: black;
+    cursor: pointer;
+    transition: 0.3s ease-in;
+    transform:scale(1.02);
+}
+
+/* + helps in changing thwe css for another div component when hovering on some */
+
+.mn_menu .songs-card .songs img:hover{
+    filter: grayscale(10);
+}
+
+.mn_menu .songs-card .songs img:hover + i{
+  font-size: 32px;
+  transition: 0.2s ease;
+}
+
+.mn_menu .songs-card .songs i:hover{
+    font-size: 32px;
+}
+
+.mn_menu .songs-container .songs-card .songs img{
+    height: 150px;
+    width: 150px;
+}
+
+.mn_menu .songs-container .songs-card .songs #name{
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: cursive;
+    margin-top: 5px;
+    height: 22px;
+    overflow-y:scroll;
+    overflow-x: hidden;
+}
+
+.mn_menu .songs-container .songs-card .songs #singer{
+    color: rgb(118, 127, 130);
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 5px;
+    font-family: 'Times New Roman', Times, serif;
+    height: 18px;
+    overflow-y:scroll;
+    overflow-x: hidden;
+}
+
+
+.mn_menu #recent{
+    color: white;
+    font-size: 22px;
+    font-weight: 500;
+    margin-left: 12px;
 }

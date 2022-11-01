@@ -1,0 +1,11 @@
+.artist-container{
+    z-index: 1;
+    height: 100vh;
+    flex-grow: 1;
+}
+
+.artist-container .top-picture{
+    margin: 0px 12px 12px 12px;
+    height: 350px;
+    position: relative;
+}

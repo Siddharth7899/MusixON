@@ -105,7 +105,7 @@
 
 .playListContainer .playlistContent{
   margin-top: 20px;
-  height: 250px;
+  height: 200px;
   overflow-x: hidden;
   overflow-y: scroll;
   position: relative;
@@ -124,9 +124,9 @@
   margin-left: 20px;
   font-weight: 350;
   font-family:'Times New Roman', Times, serif;
-  text-overflow: ellipsis; /*if the text became bigger it avoid it by ....*/
+  text-overflow: ellipsis; /*if the text became bigger it avoid it by .... */
   overflow: hidden;
-  display: inline; /*It not goes into second line*/
+  display: inline; /*It not goes into second line */
 }
 
 .playListContainer .playlistContent .childPlay i{
