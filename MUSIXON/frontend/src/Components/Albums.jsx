@@ -21,6 +21,7 @@ function Albums({letsPlay}) {
     return letsPlay(song_src,img_src,song_name,singer_name);
   }
 
+  
   return (
     <>
     { shw ? <div className="artist-container">
