@@ -28,9 +28,14 @@
     font-size: 18px;
     font-family: cursive;
     font-weight: 300;
+    height: 25px;
+    overflow-y: scroll;
 }
 
 .music-container .left-music-part .content-music-lf #msc-con2{
+    margin-top: 5px;
+    height: 18px;
+    overflow-y: scroll;
     color: rgb(118, 127, 130);
     font-size: 16px;
     font-weight: 200;
@@ -98,7 +103,8 @@
    outline: none;
    border: none;
    border-radius: 10px;
-   appearance: none;
+   color: aqua;
+   appearance: none; 
    background:rgb(118, 127, 130);
    cursor: pointer;
    overflow: hidden;

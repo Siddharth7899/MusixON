@@ -37,6 +37,7 @@ function MediaPlayer({currSong}){
    audioPlayer?.current?.readyState
   ]);
 
+
   function handlePlayer(){
     const prevStateValue = isPlay;
     if(!prevStateValue){
@@ -59,12 +60,12 @@ function MediaPlayer({currSong}){
   }
   
   const whilePlaying = () =>{
-    progressBar.current.value = Math.floor(audioPlayer.current.currentTime);
+    progressBar.current.value = audioPlayer.current.currentTime;
     changeCurrentTime();
     animationRef.current = requestAnimationFrame(whilePlaying);
   }
   const changeProgress = () =>{
-    audioPlayer.current.currentTime = Math.floor(progressBar.current.value);
+    audioPlayer.current.currentTime = progressBar.current.value;
     changeCurrentTime();
   }
    
@@ -104,7 +105,7 @@ function MediaPlayer({currSong}){
         <div className="btm-middle-msc">
            <p className="duration">{calculateTime(currentTime)}</p>
 
-           <input type="range" id="range" onChange={changeProgress} defaultValue="0"  ref={progressBar}/>
+           <input type="range" id="range" onChange={changeProgress} defaultValue="0" ref={progressBar}/>
 
            <p className="duration">{(duration && !isNaN(duration)) ? calculateTime(duration) : "00:00"}</p>
         </div>

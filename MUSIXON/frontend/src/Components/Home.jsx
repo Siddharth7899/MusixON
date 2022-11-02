@@ -10,7 +10,7 @@ import Artists from './Artists';
 import MainMenu from './MainMenu';
 import Login from './Login';
 
-function Home({value}) {
+function Home() {
   
   //Adding active class on the navbars
   useEffect(()=>{
@@ -40,7 +40,7 @@ function Home({value}) {
       {
         NavBarList && NavBarList.map((obj)=>(
           <div className="chSecContaier" key={obj.id}>
-          <Link to={`/${obj.name}`} onClick={()=>value(obj.name)}>
+          <Link to={`/${obj.name}`}>
           <i className='sec-logo'> {obj.icon} </i>
           <span className="sec-head"> {obj.name} </span>
           </Link>

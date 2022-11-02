@@ -2,9 +2,6 @@
     z-index: 1;
     height: 100vh;
     flex-grow: 1;
-    /* background: rgba(34,34,34,0.6);
-    backdrop-filter: blur(10px); */
-    /* overflow-y: scroll; */
 }
 
 .mn_menu .sliderContainer{
@@ -152,10 +149,8 @@
 }
 
 /* Desigining the Recently section */
- /* .mn_menu .song-container{
-   position: relative;
-   overflow-y: scroll;
-}  */
+
+
 .mn_menu .songs-container{
     height: 300px;
     overflow-y: scroll;

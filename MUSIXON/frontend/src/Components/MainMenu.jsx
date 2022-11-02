@@ -39,9 +39,11 @@ function MainMenu({letsPlay}) {
 
   const[nowPlaying,setNowPlaying] = useState();
   
-  function handleNowPlaying(obj){
-    setNowPlaying(()=>obj);
-    return letsPlay(nowPlaying);
+  function handleNowPlaying(song_src,img_src,song_name,singer_name){
+    // console.log(e1+e2+e3+e4);
+    // setNowPlaying(()=>obj);
+    // return letsPlay(nowPlaying);
+    return letsPlay(song_src,img_src,song_name,singer_name);
   }
 
   return (

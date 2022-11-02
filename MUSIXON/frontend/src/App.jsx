@@ -9,26 +9,28 @@ import MediaPlayer from './Components/MediaPlayer';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
-  const[main,setMain] = useState(true);
-  function handleMain(ele){
-    if(ele==="Home") setMain(true);
-    else setMain(false);
-  }
-  
   const[currSong,setCurrSong] = useState();
-  function handlePlay(obj){
+  function handlePlay(song_src,img_src,song_name,singer_name){
+    // setCurrSong(()=>obj);
+    const obj = {
+      song_src:song_src,
+      img_src:img_src,
+      name:song_name,
+      singer:singer_name
+    }
     setCurrSong(()=>obj);
   }
 
   return (
     <>
     <div className="App">
-    <Home value={handleMain}/>
+    <Home/>
     <Routes>
-      <Route path="Artists" element={<Artists/>}/>
-      <Route path="Albums" element={<Albums/>}/>
+      <Route path="Artists" element={<Artists letsPlay={handlePlay}/>}/>
+      <Route path="Albums" element={<Albums letsPlay={handlePlay}/>}/>
+      <Route path="/" element={<MainMenu letsPlay={handlePlay}/>}></Route>
+      <Route path="/Home" element={<MainMenu letsPlay={handlePlay}/>}></Route>
     </Routes> 
-    {main ? <MainMenu letsPlay={handlePlay}/> : null}
     </div>
     {currSong? <MediaPlayer currSong={currSong}/> : null}
     <div className="appBack"></div>
