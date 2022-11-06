@@ -40,6 +40,10 @@
     font-family: 'Times New Roman', Times, serif;
 }
 
+.artist-container .top-name #tp-albm{
+    margin: auto !important;
+}
+
 .artist-container .top-picture .btm-effect{
     position: absolute;
     bottom: 0px;
@@ -81,12 +85,25 @@
 }
 
 .artist-container .artist-section .artist-card .artist img{
-    height:200px;
-    width:175px;
+    height:190px;
+    width:160px;
+}
+
+.artist-container .artist-section .artist-card .artist i{
+    position: absolute;
+    color: rgb(0, 101, 0);
+    font-size: 0px;
+    margin-top: 150px;
+    margin-left: 140px;
 }
 
 .artist-container .artist-section .artist-card .artist img:hover{
     filter: grayscale(100%);
+}
+
+.artist-container .artist-section .artist-card .artist img:hover+i{
+  font-size: 38px;
+  transition: 0.2s ease;
 }
 
 .artist-container .artist-section .artist-card .artist #name{
@@ -177,7 +194,13 @@
     color: white;
     font-size: 28px;
     font-weight: 400;
+    display: flex;
     font-family: 'Times New Roman', Times, serif;
+}
+
+.artist-container .musicList .title i{
+    color: green;
+    font-size: 30px;
 }
 
 .artist-container .musicList .title #bc-art-sec{

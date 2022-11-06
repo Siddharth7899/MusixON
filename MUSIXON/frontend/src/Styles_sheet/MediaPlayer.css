@@ -103,7 +103,6 @@
    outline: none;
    border: none;
    border-radius: 10px;
-   color: aqua;
    appearance: none; 
    background:rgb(118, 127, 130);
    cursor: pointer;
@@ -156,4 +155,20 @@
     margin-right: 12px;
     margin-bottom: 4px;
     height: 5px;
+    outline: none;
+    border-radius: 10px;
+    overflow: none;
+    cursor: pointer;
+    /* appearance: none; */
+}
+
+.music-container .right-music-part #volume::before{
+    position: absolute;
+    content: "";
+    top:0px;
+    left:0px;
+    background-color: #1DB954;
+    height: 100%;
+    z-index: 2;
+    border-radius: 10px;
 }

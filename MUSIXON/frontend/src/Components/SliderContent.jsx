@@ -12,7 +12,7 @@ const sliders = [
     {
         id : 3,
         img:"https://pyxis.nymag.com/v1/imgs/709/49e/f9dc751d511c907f02808dad68cfea1341-13-billie-eilish.rsquare.w700.jpg",
-        text:"BILLIE EILISH SPECIAL"
+        text:"HOLLYWOOD SPECIAL"
     },
     {
         id : 4,

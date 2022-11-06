@@ -2,9 +2,9 @@ import React,{useState,useEffect} from 'react'
 import albums from "./AlbumsList";
 import AlbumSongs from './AlbumSongs';
 import "../Styles_sheet/Artists.css";
-import "../Styles_sheet/Albums.css"
+import {BsFillPlayCircleFill} from "react-icons/bs";
 
-function Albums({letsPlay}) {
+function Albums({songList,updateLiked}) {
   const[shw,setShw] = useState(true);
   const[topImg,setTopImg] = useState(null);
   const[songs,setSongs] = useState(null);
@@ -17,11 +17,14 @@ function Albums({letsPlay}) {
     }
   }
 
-  const playCurrSong = (song_src,img_src,song_name,singer_name) =>{
-    return letsPlay(song_src,img_src,song_name,singer_name);
+  const handleSongArray = (arr) =>{
+    return songList(arr);
   }
 
-  
+  const changeLiked = (song_obj) =>{
+    return updateLiked(song_obj);
+  }
+
   return (
     <>
     { shw ? <div className="artist-container">
@@ -39,13 +42,14 @@ function Albums({letsPlay}) {
             albums && albums.map((obj,idx)=>(
               <div className="artist" key={idx} onClick={()=>handleClick(obj.songs,obj.img_src)}>
                 <img src={obj.img_src} alt="pic" />
+                <i><BsFillPlayCircleFill/></i>
                 <h3 id="name">{obj.album_name}</h3>
               </div>
             ))
           }
         </div>
       </div>
-    </div> : <AlbumSongs song={songs} topImg={topImg} ret={()=>setShw(true)} currSong = {playCurrSong}/>}
+    </div> : <AlbumSongs song={songs} topImg={topImg} ret={()=>setShw(true)} songArray = {handleSongArray} likedSong={changeLiked}/>}
     </>
   )
 }

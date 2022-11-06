@@ -14,9 +14,12 @@ import Login from './Login';
 import { Link,Outlet } from "react-router-dom";
 import Recently from './Recently';
 import Trending from './Trending';
-import CurrentPlayingSong from "./CurrentPlayingSong";
+import SliderSong from './SliderSong';
+import SliderSongList from "./SliderSongList";
 
-function MainMenu({letsPlay}) {
+function MainMenu({updateLiked,songList}) {
+  const[shw,setShw] = useState(true);
+  const[songs,setSongs] = useState(null);
   //slider state hook
   const[slideIndex,setSlideIndex] = useState(1);
     const nextSlide = ()=>{
@@ -25,6 +28,7 @@ function MainMenu({letsPlay}) {
       }else if(slideIndex===SliderList.length){
         setSlideIndex(1);
       }
+      // console.log(slideIndex+" next");
     }
     const prevSlide = ()=>{
        if(slideIndex !==1){
@@ -32,24 +36,35 @@ function MainMenu({letsPlay}) {
        }else if(slideIndex===1){
          setSlideIndex(SliderList.length);
        }
+      //  console.log(slideIndex+" prev");
     }
   
   
   const[loginPopup,setLoginPopup] = useState(false);
 
   const[nowPlaying,setNowPlaying] = useState();
-  
-  function handleNowPlaying(song_src,img_src,song_name,singer_name){
-    // console.log(e1+e2+e3+e4);
-    // setNowPlaying(()=>obj);
-    // return letsPlay(nowPlaying);
-    return letsPlay(song_src,img_src,song_name,singer_name);
+   
+  const handleSongArray = (arr) =>{
+    return songList(arr);
+  }
+
+  const handleClick = (id) => {
+    SliderSongList.forEach((song)=>{
+      if(song.id===id){
+        setSongs(song.songs);
+      }
+    }) 
+    if(songs!==null) setShw(false);
+  }
+
+  const changeLiked = (song_obj) =>{
+    return updateLiked(song_obj);
   }
 
   return (
     <div className="mn_menu">
       <div className="sliderContainer">
-      <div className="topEffect">
+      {shw ? <div className="topEffect">
          <div className="lg-sg">
            <a href="#" onClick={()=>setLoginPopup(true)}>Login</a>
            <Login 
@@ -57,20 +72,20 @@ function MainMenu({letsPlay}) {
              close={()=>setLoginPopup(false)}
            />
          </div>
-      </div>
+      </div> : null}
           {
             SliderList && SliderList.map((obj,index)=>(
               <div className={slideIndex===index+1 ? "slides fade" : "slide"} key={obj.id}>
-              <img src={obj.img} alt="pic" className="slider-img"/>
+              <img src={obj.img} alt="pic" className={ shw ? "slider-img" : "rmvFltr"} />
 
-              <div className="slideContent">
+              { shw ? <div className="slideContent">
                  <div className="middle">
                     <i onClick={prevSlide}><FaArrowCircleLeft/></i>
                     <h1>{obj.text}</h1>
                     <i onClick={nextSlide}><FaArrowCircleRight/></i>
                  </div>
                  <div className="bottom">
-                    <a href="#" id="btm1">
+                    <a href="#" id="btm1" onClick={()=>handleClick(obj.id)}>
                       <i><BsFillPlayCircleFill/></i>
                       <span>Play</span>
                     </a>
@@ -79,15 +94,18 @@ function MainMenu({letsPlay}) {
                       <span>Follow</span>
                     </a>
                  </div>
-              </div>
+              </div> : null }
               </div>
               ))
             }
         <div className="btmEffect"></div>
       </div>
-      <div className="songs-container">
-      <Recently currSong={handleNowPlaying}/>
-      </div>
+      { shw ?
+        <div className="songs-container">
+        <Recently songArray={handleSongArray}/>
+        </div> :
+        <SliderSong song={songs} ret={()=>setShw(true)} likedSong={changeLiked} songArray={handleSongArray}/>
+      }   
     </div>
   )
 }

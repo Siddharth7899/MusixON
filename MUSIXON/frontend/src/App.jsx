@@ -6,33 +6,55 @@ import Artists from './Components/Artists';
 import Albums from './Components/Albums';
 import Login from './Components/Login';
 import MediaPlayer from './Components/MediaPlayer';
+import LikedSongs from './Components/LikedSongs';
+import LikedList from "./Components/LikedList";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   const[currSong,setCurrSong] = useState();
-  function handlePlay(song_src,img_src,song_name,singer_name){
-    // setCurrSong(()=>obj);
-    const obj = {
-      song_src:song_src,
-      img_src:img_src,
-      name:song_name,
-      singer:singer_name
-    }
-    setCurrSong(()=>obj);
+  const[liked,setLiked] = useState(LikedList);
+  const[songList,setSongList] = useState(null);
+
+  //handling songs for mediaPlayer
+
+  const handleSongList = (arr) =>{
+    let array = arr;
+    setSongList(()=>array);
   }
+
+  //Updating Liked Songs List
+  
+  const updateLikedSong = (song) =>{
+    if(song.fav){
+      let arr = liked;
+      arr.unshift(song);
+      setLiked([...arr]);
+    }else{
+      let index=0;
+      let arr = liked;
+      arr.forEach((ele)=>{
+        if(ele.id===song.id){
+          arr.splice(index,1);
+          setLiked([...arr]);
+        }
+        index+=1;
+      })
+    }
+  }
+
 
   return (
     <>
     <div className="App">
     <Home/>
     <Routes>
-      <Route path="Artists" element={<Artists letsPlay={handlePlay}/>}/>
-      <Route path="Albums" element={<Albums letsPlay={handlePlay}/>}/>
-      <Route path="/" element={<MainMenu letsPlay={handlePlay}/>}></Route>
-      <Route path="/Home" element={<MainMenu letsPlay={handlePlay}/>}></Route>
+      <Route path="Artists" element={<Artists songList={handleSongList} updateLiked={updateLikedSong}/>}/>
+      <Route path="Albums" element={<Albums songList={handleSongList} updateLiked={updateLikedSong}/>}/>
+      <Route path="/" element={<MainMenu updateLiked={updateLikedSong} songList={handleSongList}/>}></Route>
+      <Route path="/Home" element={<MainMenu updateLiked={updateLikedSong} songList={handleSongList}/>}></Route>
     </Routes> 
     </div>
-    {currSong? <MediaPlayer currSong={currSong}/> : null}
+    {songList ? <MediaPlayer songs={songList}/> : null}
     <div className="appBack"></div>
     </>
   );

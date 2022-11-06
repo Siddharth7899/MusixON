@@ -20,6 +20,15 @@
     filter: grayscale(10);
 }
 
+.mn_menu .sliderContainer .slides .rmvFltr{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height:100%;
+    object-fit: cover;
+}
+
 .mn_menu .sliderContainer .btmEffect{
     position: absolute;
     bottom: 0px;
