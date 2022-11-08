@@ -10,7 +10,7 @@ import {FiCheck} from "react-icons/fi"
 import {FaArrowCircleRight} from "react-icons/fa"
 import {FaArrowCircleLeft} from "react-icons/fa"
 import SliderList from "./SliderContent"
-import Login from './Login';
+import Profile from './Profile';
 import { Link,Outlet } from "react-router-dom";
 import Recently from './Recently';
 import Trending from './Trending';
@@ -64,13 +64,14 @@ function MainMenu({updateLiked,songList}) {
   return (
     <div className="mn_menu">
       <div className="sliderContainer">
-      {shw ? <div className="topEffect">
+      {shw ? 
+         <div className="topEffect">
          <div className="lg-sg">
            <a href="#" onClick={()=>setLoginPopup(true)}>Login</a>
-           <Login 
+           {/* <Profile
              open={loginPopup}
              close={()=>setLoginPopup(false)}
-           />
+           /> */}
          </div>
       </div> : null}
           {
@@ -102,7 +103,8 @@ function MainMenu({updateLiked,songList}) {
       </div>
       { shw ?
         <div className="songs-container">
-        <Recently songArray={handleSongArray}/>
+        {/* <Recently songArray={handleSongArray}/> */}
+        <Trending songArray={handleSongArray}/>
         </div> :
         <SliderSong song={songs} ret={()=>setShw(true)} likedSong={changeLiked} songArray={handleSongArray}/>
       }   

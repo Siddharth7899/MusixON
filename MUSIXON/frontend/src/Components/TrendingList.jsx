@@ -56,3 +56,5 @@ const trending = [
       "https://upload.wikimedia.org/wikipedia/commons/0/01/Sabrina_Carpenter_12-02-2016_-15_%2831466425710%29_%28cropped%29.jpg",
   },
 ];
+
+export default trending;

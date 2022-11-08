@@ -1,77 +1,143 @@
-import React, { useState } from 'react'
-import ReactDOM from 'react-dom';
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import GoogleLogin from "react-google-login";
-import {AiOutlineClose} from "react-icons/ai";
-import Signup from './Signup';
-import "../Styles_sheet/Login.css"
+import { AiOutlineClose } from "react-icons/ai";
+import "../Styles_sheet/Login.css";
+import axios from "axios";
 
-function Login({open,close}) {
-  const[loginData,setLoginData] = useState({
-    email:"",
-    password:""
+function Login({ open, close, home }) {
+  const responseSuccessGoogle = async (response) => {
+    console.log(response);
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5000/googlelogin",
+        {
+          tokenId: response.tokenId,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data);
+      if (data) {
+        if (data.errors) {
+          // handel error...
+          console.log("In corrcet credentials.");
+        } else {
+          // go to home page..
+          return home("home");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const responseErrorGoogle = (response) => {
+    console.log(response);
+  };
+
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
   });
-  
-  const[loginPage,setLoginPage] = useState(true);
 
-  function handleChange(e){
-    const {name,value} = e.target;
+  function handleChange(e) {
+    const { name, value } = e.target;
     setLoginData((preValue) => {
-        return {
-          ...preValue,
-          [name]: value,
-        };
+      return {
+        ...preValue,
+        [name]: value,
+      };
     });
   }
 
-  function handleSubmit(e){
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const { email, password } = loginData;
+    try {
+      console.log(email, password);
+      const { data } = await axios.post(
+        "http://localhost:5000/login",
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data);
+      if (data) {
+        if (data.errors) {
+          console.log("In correct Credentials");
+        } else {
+          // move to protected routes.. profile or something
+          return home("home");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
     return close();
-  }
+  };
 
-  if(!open) return null;
+  if (!open) return null;
   return ReactDOM.createPortal(
-   <>
-   { loginPage ? <form className="overLay" onSubmit={handleSubmit}>
-        <div className="lg-container">
-            <div className="top-lg">
-              <img
-              src="https://w0.peakpx.com/wallpaper/451/187/HD-wallpaper-billie-eilish-billie-eilish-thumbnail.jpg"
-              alt="img"
-              className="avatar-img"
-              />
-              <i onClick={()=>close()}><AiOutlineClose /></i>
-            </div>
-            <h2>Get Started</h2>
-           <div className="lg">
-              <h2>Email</h2>
-              <input type="email" name="email" placeholder="Enter Email" onChange={handleChange}/>
-           </div>
-           <div className="lg">
-              <h2>Password</h2>
-              <input type="password" name="password" placeholder="Enter Password" onChange={handleChange}/>
-           </div>
-           <div className="lg">
-              <input type="submit" value="Login"/>
-            </div>
-            <div>
-              <GoogleLogin
-                className="google-login"
-                buttonText="Login with google"
-              />
-            </div>
-            <div className="btm-content">
-                <p>Dont have an account ?</p>
-                <a href="#" onClick={()=>setLoginPage(false)}>Register</a>
-            </div>
-            <div className="btm-content">
-                <p>password ?</p>
-                <a href="#">forgetPassword</a>
-            </div>
+    <form className="overLay" onSubmit={handleSubmit}>
+      <div className="lg-container">
+        <div className="top-lg">
+          <img
+            src="https://w0.peakpx.com/wallpaper/451/187/HD-wallpaper-billie-eilish-billie-eilish-thumbnail.jpg"
+            alt="img"
+            className="avatar-img"
+          />
+          <i className="lg-tp-icon" onClick={() => close()}>
+            <AiOutlineClose />
+          </i>
         </div>
-    </form> : <Signup signup={()=>{setLoginPage(true);close()}}/> }
-    </>,
+        <h2 className="h2-top">Get Started</h2>
+        <div className="lg">
+          <h2 className="h2-lg">Email</h2>
+          <input
+            className="input-margin"
+            type="email"
+            name="email"
+            placeholder="Enter Email"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="lg">
+          <h2 className="h2-lg">Password</h2>
+          <input
+            className="input-margin"
+            type="password"
+            name="password"
+            placeholder="Enter Password"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="lg">
+          <input type="submit" value="Login" className="lg-sub" />
+        </div>
+        <div>
+          <GoogleLogin
+            className="google-login"
+            clientId="634193116808-mhg7vbt3hph1bg2sb0sfia6skijf3o71.apps.googleusercontent.com"
+            buttonText="Login with google"
+            onSuccess={responseSuccessGoogle}
+            onFailure={responseErrorGoogle}
+            cookiePolicy={"single_host_origin"}
+          />
+        </div>
+        <div className="btm-content">
+          <p>password ?</p>
+          <a href="#">forgotPassword</a>
+        </div>
+      </div>
+    </form>,
     document.getElementById("portal1")
   );
 }
 
-export default Login
+export default Login;

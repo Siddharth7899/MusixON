@@ -8,7 +8,7 @@ import UserPlaylist from './UserPlaylist';
 import { Link } from "react-router-dom"
 import Artists from './Artists';
 import MainMenu from './MainMenu';
-import Login from './Login';
+import Profile from './Profile';
 
 function Home() {
   

@@ -6,6 +6,14 @@
     overflow: hidden;
 }
 
+.App1{
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+}
+
 /*css for background image for whole app */
 
 .appBack{
@@ -14,6 +22,7 @@
     left:0px;
     bottom:0px;
     right:0px;
+    height: 100vh;
     /* background : url("https://c1.wallpaperflare.com/preview/940/311/672/concert-crowd-audience-people.jpg") no-repeat center;
     background-size: cover;
     filter: grayscale(100%); */
