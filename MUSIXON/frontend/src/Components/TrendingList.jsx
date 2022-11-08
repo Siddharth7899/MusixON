@@ -1,6 +1,6 @@
 const trending = [
   {
-    id: 49,
+    idx: 49,
     fav: false,
     song_src:
       "https://pwdown.com/113515/variation/190K/We%20Rollin%20-%20Shubh.mp3",
@@ -10,7 +10,7 @@ const trending = [
       "https://i1.sndcdn.com/artworks-TjLTmi9loEeCCUz5-s2ti4w-t500x500.jpg",
   },
   {
-    id: 50,
+    idx: 50,
     fav: false,
     song_src: "https://pwdown.com/14426/02%20Kamariya%20-%20Stree.mp3",
     song_name: "Kamariya",
@@ -19,7 +19,7 @@ const trending = [
       "https://static.toiimg.com/thumb/msid-65334592,width-400,resizemode-4/65334592.jpg",
   },
   {
-    id: 51,
+    idx: 51,
     fav: false,
     song_src:
       "https://pwdown.com/113639/variation/190K/Deva%20Deva%20-%20Brahmastra.mp3",
@@ -29,7 +29,7 @@ const trending = [
       "https://c.saavncdn.com/044/Deva-Deva-From-Brahmastra-Hindi-2022-20220812225424-500x500.jpg",
   },
   {
-    id: 52,
+    idx: 52,
     fav: false,
     song_src:
       "https://pwdown.com/9488/Wakhra%20Swc:Userssiddharth yadavAppDataLocalProgramsMicrosoft VS Code\resourcesappout\vscodeelectron-sandboxworkbenchworkbench.htmlag%20-%20Navv%20Inder%20(feat.%20Badshah)%20320Kbps.mp3",
@@ -39,7 +39,7 @@ const trending = [
       "https://i.scdn.co/image/ab67616d0000b273b144dfcd7668fb6fdf04fc16",
   },
   {
-    id: 53,
+    idx: 53,
     fav: false,
     song_src: "https://pagalworld.com.se/files/download/type/320/id/3680",
     song_name: "Love Me Like You Do",
@@ -47,7 +47,7 @@ const trending = [
     song_img_src: "https://i.ytimg.com/vi/XVmsu70df7I/maxresdefault.jpg",
   },
   {
-    id: 54,
+    idx: 54,
     fav: false,
     song_src: "https://maudioshare.pw/download/22072",
     song_name: "Ride It",
@@ -55,6 +55,7 @@ const trending = [
     song_img_src:
       "https://upload.wikimedia.org/wikipedia/commons/0/01/Sabrina_Carpenter_12-02-2016_-15_%2831466425710%29_%28cropped%29.jpg",
   },
+  
 ];
 
 export default trending;

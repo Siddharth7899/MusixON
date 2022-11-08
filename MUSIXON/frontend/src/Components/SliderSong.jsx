@@ -19,10 +19,10 @@ function SliderSong({song,ret,likedSong,songArray}) {
     allPara.forEach((i)=>i.addEventListener("click",changeActive));
   },[]);
 
-  const changeFavourite = (id) =>{
+  const changeFavourite = (idx) =>{
     let song_obj;
     songs.forEach((sng)=>{
-      if(sng.id==id){
+      if(sng.idx==idx){
         sng.fav = !sng.fav;
         song_obj = sng;
         }
@@ -54,13 +54,13 @@ function SliderSong({song,ret,likedSong,songArray}) {
                         <img src={obj.song_img_src} alt="pic" />
                     </div>
                      
-                    <div className="content-section" onClick={()=>handleCurrSong(obj)}>
-                        <p className="songName" >
+                    <div className="content-section">
+                        <p className="songName" onClick={()=>handleCurrSong(obj)}>
                             {obj.song_name}
                             <span className="singerName">{obj.singer_name}</span>
                         </p>
 
-                       <div className="loved" onClick={()=>changeFavourite(obj.id)}>
+                       <div className="loved" onClick={()=>changeFavourite(obj.idx)}>
                         {obj.fav ? <i id="fill-heart"><FaHeart /></i> : <i><FiHeart /></i>}
                        </div>
                     </div>

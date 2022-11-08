@@ -13,10 +13,11 @@ function Trending({songArray}){
   return (
     <>
     <h2 id="recent">Trending This Week!!</h2>
+    <div className="songs-row">
     <div className="songs-card">
            {
             TrendingList && TrendingList.map((obj,idx)=>(
-               <div className="songs" key={obj.id} onClick={()=>handleSong(obj)}>
+               <div className="songs" key={obj.idx} onClick={()=>handleSong(obj)}>
                <img src={obj.song_img_src} alt="pic" />
                <i><BsFillPlayCircleFill/></i>
                <h3 id="name">{obj.song_name}</h3>
@@ -24,6 +25,7 @@ function Trending({songArray}){
                </div>
             ))
            }
+    </div>
     </div>
     </>
   );

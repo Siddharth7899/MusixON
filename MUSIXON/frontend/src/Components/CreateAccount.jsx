@@ -7,8 +7,8 @@ function CreateAccount({ homePg }) {
   const [signUpPopup, setSignUpPopup] = useState(false);
   const [loginPopup, setLoginPopup] = useState(false);
 
-  const handleHomePage = (e) => {
-    return homePg(e);
+  const handleHomePage = (obj) => {
+    return homePg(obj);
   };
 
   return (

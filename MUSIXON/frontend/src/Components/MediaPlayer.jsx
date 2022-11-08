@@ -11,8 +11,9 @@ import {GoMute} from "react-icons/go";
 import {GiSpeaker} from "react-icons/gi";
 import {MdRepeatOne} from "react-icons/md";
 import "../Styles_sheet/MediaPlayer.css";
+import axios from 'axios';
 
-function MediaPlayer({songs}){
+function MediaPlayer({songs,userId}){
   const[index,setIndex] = useState(0);
   const[currSong,setCurrSong] = useState(songs[0]);
   const[isLiked,setIsLiked] = useState(false);
@@ -29,9 +30,25 @@ function MediaPlayer({songs}){
   
   // Songs updated every time when new array of songs came
   useEffect(()=>{
+    setIndex(0);
    setCurrSong(songs[0]);
-   setIndex(0);
   },[songs]);
+
+  // send current playing song to backend..
+
+  useEffect(()=>{
+    const fun = async()=>{
+      console.log(userId);
+      const {data} = await axios.post("http://localhost:5000/recentlyPlayedSongs",{
+        id:userId,indx:songs[index].idx,song_name:songs[index].song_name,song_src:songs[index].song_src,song_img_src:songs[index].song_img_src,singer_name:songs[index].singer_name,fav:songs[index ].fav
+      },{
+        withCredentials:true,
+      });
+      console.log(data);
+      return;
+    }
+    fun();
+  },[index,currSong]);
 
   function handleLiked(){
     setIsLiked(!isLiked);
@@ -124,6 +141,15 @@ function MediaPlayer({songs}){
       setCurrSong(songs[songs.length-1]);
     }
   } 
+  
+  //Shuffle Functionality
+  const handleShuffle = () =>{
+    const newIndex = Math.floor(Math.random()*songs.length);
+    if(newIndex>=songs.length) newIndex = songs.length-1;
+    console.log(newIndex);
+    setCurrSong(songs[newIndex]);
+    setIndex(newIndex);
+  }
 
   return (
     <div className="music-container">
@@ -139,12 +165,12 @@ function MediaPlayer({songs}){
       </div>
       <div className="middle-music-part">
         <div className="top-middle-msc">
-           <i><BiShuffle /></i>
+           <i id="doShuffle" onClick={handleShuffle}><BiShuffle /></i>
            <i onClick={handlePreviousSong}><AiFillLeftCircle /></i>
            {isPlay ? <i id="play-msc" onClick={handlePlayer}><FaPauseCircle /></i> : 
             <i id="play-msc" onClick={handlePlayer}><FaPlayCircle /></i> }
            <i onClick={handleNextSong}><AiFillRightCircle /></i>
-           {isRepeat ? <i id="repeat-now" onClick={handleRepeat}><MdRepeatOne/></i> : <i onClick={handleRepeat}><BiRepeat /></i>}
+           {isRepeat ? <i id="repeat-now" onClick={handleRepeat}><MdRepeatOne/></i> : <i id="doShuffle"onClick={handleRepeat}><BiRepeat /></i>}
         </div>
         <div className="btm-middle-msc">
            <p className="duration">{calculateTime(currentTime)}</p>

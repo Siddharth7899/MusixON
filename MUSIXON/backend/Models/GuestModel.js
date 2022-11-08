@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 
 const musicSchema = new mongoose.Schema({
+    indx:{
+        type:Number
+    },
     song_name:{
         type: String
     },
@@ -12,6 +15,9 @@ const musicSchema = new mongoose.Schema({
     },
     singer_name:{
         type:String
+    },
+    fav:{
+        type:Boolean
     }
 },{
     timestamps:true

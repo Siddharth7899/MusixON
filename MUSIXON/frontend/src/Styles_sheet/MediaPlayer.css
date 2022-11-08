@@ -74,8 +74,16 @@
     margin: 0px 12px;
 }
 
+.music-container .middle-music-part .top-middle-msc #doShuffle:hover{
+    color: #1DB954;
+}
+
 .music-container .middle-music-part .top-middle-msc #play-msc{
     font-size: 30px;
+}
+
+.music-container .middle-music-part .top-middle-msc #repeat-now:hover{
+    color: #1DB954;
 }
 
 .music-container .middle-music-part .top-middle-msc #repeat-now{

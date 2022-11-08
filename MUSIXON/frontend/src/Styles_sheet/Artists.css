@@ -203,6 +203,16 @@
     font-size: 30px;
 }
 
+.artist-container .musicList .title i:hover{
+    font-size: 32px;
+    cursor: pointer;
+    color: rgb(0, 255, 0);
+}
+
+.artist-container .musicList .title #play-all-margin{
+    margin-left: 15px !important;
+}
+
 .artist-container .musicList .title #bc-art-sec{
     margin-left: 18px;
     font-size: 20px !important;

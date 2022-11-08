@@ -3,6 +3,7 @@ import LikedList from "./LikedList";
 import { GoVerified } from "react-icons/go";
 import { FaHeart } from "react-icons/fa";
 import { FiHeart } from "react-icons/fi";
+import {GoPlay} from "react-icons/go";
 import "../Styles_sheet/Artists.css";
 
 function ArtistSongs({
@@ -28,10 +29,10 @@ function ArtistSongs({
     allPara.forEach((i) => i.addEventListener("click", changeActive));
   }, []);
 
-  const changeFavourite = (id) => {
+  const changeFavourite = (idx) => {
     let song_obj;
     songs.forEach((sng) => {
-      if (sng.id == id) {
+      if (sng.idx == idx) {
         sng.fav = !sng.fav;
         song_obj = sng;
       }
@@ -45,6 +46,10 @@ function ArtistSongs({
     arr.push(obj);
     return songArray(arr);
   };
+
+  const handleSongList = () =>{
+    return songArray(songs);
+  }
 
   return (
     <div className="artist-container">
@@ -63,10 +68,11 @@ function ArtistSongs({
       </div>
       <div className="musicList">
         <h2 className="title">
-          Popular{" "}
+          Popular
           <span id="bc-art-sec" onClick={() => ret()}>
             Artists
-          </span>{" "}
+          </span>
+          <i id="play-all-margin" onClick={handleSongList}><GoPlay /></i>
         </h2>
         <div className="song-container">
           {songs &&
@@ -86,7 +92,7 @@ function ArtistSongs({
 
                     <div
                       className="loved"
-                      onClick={() => changeFavourite(obj.id)}
+                      onClick={() => changeFavourite(obj.idx)}
                     >
                       {obj.fav ? (
                         <i id="fill-heart">

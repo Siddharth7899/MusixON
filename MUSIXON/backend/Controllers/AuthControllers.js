@@ -25,6 +25,7 @@ const createToken = (id)=>{
     });
 };
 
+
 module.exports.register = async(req,res,next)=>{
     try{
         const{name, email, password} = req.body;
@@ -151,5 +152,57 @@ module.exports.login = async (req,res,next)=>{
     }
     catch(err){
         next(err);
+    }
+}
+
+module.exports.recentlyPlayedSongs = async (req,res,next)=>{
+    try{
+        const {id,indx,song_name,song_src,song_img_src,singer_name,fav}=req.body;
+        // console.log(req.body);
+        Guest.findById(id,(error,guest)=>{
+            console.log(guest);
+            if(error){
+                res.status(400).json({
+                    message:"no user exist.."
+                })
+            }
+            else{
+                var recentPlayOfUser = guest.recentlyPlayedSong;
+                var filtered = recentPlayOfUser.filter(function(value,index,arr){
+                    if(value.song_name == song_name) console.log(song_name);
+                    return value.song_name != song_name;
+                })
+                var temp = [];
+                for(var i=0;i<Math.min(filtered.length,49);i++){
+                    temp.push(filtered[i]);
+                }
+                // console.log("break point-->");
+                // console.log(temp);
+                guest.recentlyPlayedSong=temp;
+                guest.recentlyPlayedSong.unshift({
+                    indx:indx,
+                    song_name:song_name,
+                    song_src:song_src,
+                    song_img_src:song_img_src,
+                    singer_name:singer_name,
+                    fav:fav
+                })
+                guest.save((err,data)=>{
+                    if(err){
+                        res.status(200).json({
+                            message:"something went wrong.."
+                        })
+                    }
+                    else{
+                        res.status(200).json({
+                            message:"recent list updated.."
+                        })
+                    }
+                })
+            }
+        })
+    }
+    catch(err){
+        console.log(err);
     }
 }

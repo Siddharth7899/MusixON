@@ -90,7 +90,8 @@ function Signup({ open, close, home }) {
             alert("User Already Exists!!");
           } else {
             // go to home page
-            return home("home");
+            // return home("home");
+            return home(registerData);
           }
         }
       } catch (err) {

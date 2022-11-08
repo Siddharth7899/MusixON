@@ -17,7 +17,7 @@ import Trending from './Trending';
 import SliderSong from './SliderSong';
 import SliderSongList from "./SliderSongList";
 
-function MainMenu({updateLiked,songList}) {
+function MainMenu({updateLiked,songList,name,recentSongsList}) {
   const[shw,setShw] = useState(true);
   const[songs,setSongs] = useState(null);
   //slider state hook
@@ -42,8 +42,6 @@ function MainMenu({updateLiked,songList}) {
   
   const[loginPopup,setLoginPopup] = useState(false);
 
-  const[nowPlaying,setNowPlaying] = useState();
-   
   const handleSongArray = (arr) =>{
     return songList(arr);
   }
@@ -67,7 +65,7 @@ function MainMenu({updateLiked,songList}) {
       {shw ? 
          <div className="topEffect">
          <div className="lg-sg">
-           <a href="#" onClick={()=>setLoginPopup(true)}>Login</a>
+           <a href="#" onClick={()=>setLoginPopup(true)}>{name ? name : "Shubhra"}</a>
            {/* <Profile
              open={loginPopup}
              close={()=>setLoginPopup(false)}
@@ -103,8 +101,8 @@ function MainMenu({updateLiked,songList}) {
       </div>
       { shw ?
         <div className="songs-container">
-        {/* <Recently songArray={handleSongArray}/> */}
         <Trending songArray={handleSongArray}/>
+         <Recently songArray={handleSongArray} recentList={recentSongsList}/>
         </div> :
         <SliderSong song={songs} ret={()=>setShw(true)} likedSong={changeLiked} songArray={handleSongArray}/>
       }   

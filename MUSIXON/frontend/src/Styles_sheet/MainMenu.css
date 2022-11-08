@@ -1,7 +1,8 @@
 .mn_menu{
     z-index: 1;
     height: 100vh;
-    flex-grow: 1;
+    /* flex-grow: 1; */
+    width: 1240px;
 }
 
 .mn_menu .sliderContainer{
@@ -124,6 +125,10 @@
     color: black;
 }
 
+.mn_menu .sliderContainer .slides .slideContent .bottom #btm1:hover{
+    background-color: rgb(0, 255, 0);
+}
+
 .mn_menu .sliderContainer .slides .slideContent .bottom #btm1 span{
     color: black;
     font-weight: 500;
@@ -163,21 +168,23 @@
 .mn_menu .songs-container{
     height: 300px;
     overflow-y: scroll;
-    overflow-x: hidden;
+    /* overflow-x: scroll; */
 }
-.mn_menu .songs-container .songs-card{
+
+
+.mn_menu .songs-container .songs-row .songs-card{
     /* position: relative; */
     display: flex;
     height: 250px;
-    margin: 12px;
+    /* margin: 12px; */
     justify-content: space-between;
     align-items: center;
-    overflow-x: hidden;
+    overflow-x: scroll;
     overflow-y: scroll;
     /* margin: auto; */
 }
 
-.mn_menu .songs-container .songs-card .songs{
+.mn_menu .songs-container .songs-row .songs-card .songs{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -187,9 +194,10 @@
     width: 170px;
     background-color: rgb(20, 18, 18);
     border-radius: 10px;
+    margin-left: 12px;
 }
 
-.mn_menu .songs-container .songs-card .songs i{
+.mn_menu .songs-container .songs-row .songs-card .songs i{
     position: absolute;
     /* font-size: 32px; */
     color: rgb(0, 101, 0);
@@ -199,7 +207,7 @@
 }
 
 
-.mn_menu .songs-container .songs-card .songs:hover
+.mn_menu .songs-container .songs-row .songs-card .songs:hover
 {
     background-color: black;
     cursor: pointer;
@@ -209,25 +217,25 @@
 
 /* + helps in changing thwe css for another div component when hovering on some */
 
-.mn_menu .songs-card .songs img:hover{
+.mn_menu .songs-container .songs-row .songs-card .songs img:hover{
     filter: grayscale(10);
 }
 
-.mn_menu .songs-card .songs img:hover + i{
+.mn_menu .songs-container .songs-row .songs-card .songs img:hover + i{
   font-size: 32px;
   transition: 0.2s ease;
 }
 
-.mn_menu .songs-card .songs i:hover{
+.mn_menu .songs-container .songs-row .songs-card .songs i:hover{
     font-size: 32px;
 }
 
-.mn_menu .songs-container .songs-card .songs img{
+.mn_menu .songs-container .songs-row .songs-card .songs img{
     height: 150px;
     width: 150px;
 }
 
-.mn_menu .songs-container .songs-card .songs #name{
+.mn_menu .songs-container .songs-row .songs-card .songs #name{
     color: white;
     font-size: 16px;
     font-weight: 400;
@@ -238,7 +246,7 @@
     overflow-x: hidden;
 }
 
-.mn_menu .songs-container .songs-card .songs #singer{
+.mn_menu .songs-container .songs-row .songs-card .songs #singer{
     color: rgb(118, 127, 130);
     font-size: 16px;
     font-weight: 300;
@@ -250,7 +258,7 @@
 }
 
 
-.mn_menu #recent{
+.mn_menu .songs-container #recent{
     color: white;
     font-size: 22px;
     font-weight: 500;

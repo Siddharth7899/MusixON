@@ -25,6 +25,7 @@ function Login({ open, close, home }) {
           console.log("In corrcet credentials.");
         } else {
           // go to home page..
+          
           return home("home");
         }
       }
@@ -73,7 +74,8 @@ function Login({ open, close, home }) {
           console.log("In correct Credentials");
         } else {
           // move to protected routes.. profile or something
-          return home("home");
+          // return home("home");
+          return home(loginData);
         }
       }
     } catch (err) {
