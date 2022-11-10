@@ -3,47 +3,70 @@ import  {GiMusicSpell}  from "react-icons/gi";
 import  {BsThreeDots}  from "react-icons/bs";
 import "../Styles_sheet/leftSidebar.css";
 import NavBarList from './NavBarList';
-import MyPlaylist from './MyPlaylist';
-import UserPlaylist from './UserPlaylist';
 import { Link } from "react-router-dom"
 import Artists from './Artists';
 import MainMenu from './MainMenu';
-import Profile from './Profile';
 import {Cookies, useCookies} from 'react-cookie';
 import axios from 'axios';
 
-function Home() {
+function Home({userId}) {
   const [cookies,removeCookies] = useCookies([]);
-  useEffect(()=>{
-    const verifyUser = async()=>{
-      if(!cookies.jwt){
-        // console.log("NO cookie set");
-        // setUserExists(false);
-        // redirect to main page..
-      }
-      else{
-        const { data } = await axios.post(
-          "http://localhost:5000",
-          {},
-          { withCredentials: true }
-        );
 
-        console.log(data.guest._id);
+  // useEffect(()=>{
+  //   const func = async()=>{
+  //     if(!cookies.jwt){
+  //       console.log("NO cookie set");
+  //       // redirect to main page..
+  //     }
+  //     else{
+  //       console.log("func function called here....huihuihi");
+  //       const { data } = await axios.post(
+  //         "http://localhost:5000/giveRecentSongs",
+  //         {id:userId},
+  //         { withCredentials: true }
+  //       );
+  //       console.log(data);
+  //       console.log("till here we are in home");
+  //     }
+  //   }
+  //   func();
+  // },[cookies,removeCookies]);
 
-        if(!data.status){
-          removeCookies("jwt");
-          // console.log("error cookie");
-          // redirect to signup page..
-        }
-        else{
-          // console.log("you are in haome page");
-          // console.log(data);
-          // home..
-        }
-      }
-    }
-    verifyUser();
-  },[cookies,removeCookies]);
+  // useEffect(()=>{
+  //   const func = async()=>{
+  //     console.log("func function called here....huihuihi");
+  //     if(!cookies.jwt){
+  //       // console.log("NO cookie set");
+  //       // setUserExists(false);
+  //       // redirect to main page..
+  //     }
+  //     else{
+  //       console.log("yes im in home page");
+  //       const {data} = await axios.post(
+  //         "http://localhost:5000/giveRecentSongs",
+  //         {id:userId},
+  //         { withCredentials: true }
+  //       );
+  //       console.log(data);
+  //       console.log('______ID',data.guest._id);
+  //       console.log("till here we are in home");
+
+  //       // if(!data.status){
+  //       //   removeCookies("jwt");
+  //       //   // console.log("error cookie");
+  //       //   // redirect to signup page..
+  //       // }
+  //       // else{
+  //       //   // console.log("you are in haome page");
+  //       //   // console.log(data);
+  //       //   // home..
+  //       // }
+  //     }
+  //   }
+  //   func();
+  // },[cookies]);
+
+
   //Adding active class on the navbars
   useEffect(()=>{
     const allAnchor = document.querySelector(".lf_menu .sectionContainer").querySelectorAll("a");
@@ -80,7 +103,6 @@ function Home() {
         ))
       }
       </div>
-    <MyPlaylist userList = {UserPlaylist}/>
     </div>
   );
 }

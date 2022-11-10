@@ -21,7 +21,30 @@ const musicSchema = new mongoose.Schema({
     }
 },{
     timestamps:true
-}) 
+})
+
+const likedSchema = new mongoose.Schema({
+    indx:{
+        type:Number
+    },
+    song_name:{
+        type: String
+    },
+    song_src:{
+        type: String
+    },
+    song_img_src:{
+        type:String
+    },
+    singer_name:{
+        type:String
+    },
+    fav:{
+        type:Boolean
+    }
+},{
+    timestamps:true
+})
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -41,6 +64,9 @@ const userSchema = new mongoose.Schema({
     },
     recentlyPlayedSong:{
         type: [musicSchema],
+    },
+    likedSong:{
+        type: [likedSchema],
     }
 });
 

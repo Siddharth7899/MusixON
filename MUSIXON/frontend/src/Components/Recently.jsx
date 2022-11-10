@@ -1,5 +1,4 @@
 import React, { useState,useEffect } from 'react'
-import RecentList from './RecentList';
 import {BsFillPlayCircleFill} from "react-icons/bs"
 
 function Recently({songArray,recentList}){
@@ -15,7 +14,7 @@ function Recently({songArray,recentList}){
     <>
     <h2 id="recent">Recently Played</h2>
     <div className="songs-row">
-    <div className="songs-card">
+    <div className="songs-card recent-song-card">
            {
             recentList && recentList.map((obj,idx)=>(
                <div className="songs" key={idx} onClick={()=>handleSong(obj)}>

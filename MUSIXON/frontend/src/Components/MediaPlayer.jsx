@@ -13,7 +13,7 @@ import {MdRepeatOne} from "react-icons/md";
 import "../Styles_sheet/MediaPlayer.css";
 import axios from 'axios';
 
-function MediaPlayer({songs,userId}){
+function MediaPlayer({songs,userId,updateLiked}){;
   const[index,setIndex] = useState(0);
   const[currSong,setCurrSong] = useState(songs[0]);
   const[isLiked,setIsLiked] = useState(false);
@@ -31,8 +31,14 @@ function MediaPlayer({songs,userId}){
   // Songs updated every time when new array of songs came
   useEffect(()=>{
     setIndex(0);
-   setCurrSong(songs[0]);
+    setCurrSong(songs[0]);
   },[songs]);
+
+  //handleLikedSong
+
+  const changeFavourite = (obj) =>{
+    obj.fav = !obj.fav;
+  }
 
   // send current playing song to backend..
 
@@ -50,13 +56,11 @@ function MediaPlayer({songs,userId}){
     fun();
   },[index,currSong]);
 
-  function handleLiked(){
-    setIsLiked(!isLiked);
-  }
   useEffect(()=>{
     const seconds = Math.floor(audioPlayer.current.duration);
     setDuration(seconds);
     progressBar.current.max = seconds;
+    changeCurrentTime();
   },
   [audioPlayer?.current?.loadedmetadata,
    audioPlayer?.current?.readyState
@@ -146,7 +150,6 @@ function MediaPlayer({songs,userId}){
   const handleShuffle = () =>{
     const newIndex = Math.floor(Math.random()*songs.length);
     if(newIndex>=songs.length) newIndex = songs.length-1;
-    console.log(newIndex);
     setCurrSong(songs[newIndex]);
     setIndex(newIndex);
   }
@@ -161,7 +164,7 @@ function MediaPlayer({songs,userId}){
           <p id="msc-con1">{currSong.song_name}</p>
           <p id="msc-con2">{currSong.singer_name}</p>
         </div>
-        {isLiked ? <i id="liked" onClick={handleLiked} ><FaHeart /></i> : <i id="not-liked" onClick={handleLiked}><FiHeart /></i>}
+        {currSong.fav ? <i id="liked" onClick={()=>changeFavourite(currSong)} ><FaHeart /></i> : <i id="not-liked" onClick={()=>changeFavourite(currSong)}><FiHeart /></i>}
       </div>
       <div className="middle-music-part">
         <div className="top-middle-msc">

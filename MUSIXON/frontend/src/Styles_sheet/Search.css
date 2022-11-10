@@ -1,0 +1,113 @@
+.search-container{
+    z-index: 1;
+    height: 100vh;
+    flex-grow: 1; 
+}
+
+.search-container .input-container{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.search-container .input-container input[type="text"]{
+    margin-top: 15px;
+    width: 350px;
+    height: 50px;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: 'Times New Roman', Times, serif;
+    padding-left: 20px;
+    border: none;
+    border-radius: 30px;
+}
+
+.search-container .search-display-section{
+    height: 600px;
+    width: 1000px;
+    overflow-y: scroll;
+    margin: auto;
+}
+
+.search-container .search-display-section .song-container{
+    height: 105px;
+    overflow-x: hidden;
+}
+
+.search-container .search-display-section .title-sec h3{
+    color: white;
+    font-size: 24px;
+    font-weight: 300;
+    margin-top: 24px;
+}
+
+.search-container .search-display-section .song-container .songs{
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 400;
+    color:  rgb(118, 127, 130);
+    width: 100%;
+    margin: 25px 0px;
+}
+
+.search-container .search-display-section .song-container .songs:hover{
+    color: white;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.search-container .search-display-section .song-container .songs.active{
+    color: green;
+}
+.search-container .search-display-section .song-container .songs .count{
+    margin-right: 20px;
+}
+
+.search-container .search-display-section .song-container .songs .song{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 5px;
+}
+
+.search-container .search-display-section .song-container .songs .song .img{
+    height: 50px;
+    width: 50px;
+    min-width: 50px;
+    overflow:hidden;
+    margin-right: 12px;
+    border-radius: 5px;
+    background: rgba(118,127,130);
+}
+
+.search-container .search-display-section .song-container .songs .song .img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.search-container .search-display-section .song-container .songs .song .content-section{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-container .search-display-section .song-container .songs .song .content-section .songName{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+}
+
+.search-container .search-display-section .song-container .songs .song .content-section .songName.active{
+    color: #1DA1F2;
+    transition: 0.3s;
+}
+
+.search-container .search-display-section .song-container .songs .song .content-section .loved {
+    margin-right: 24px;
+}
+.search-container .search-display-section .song-container .songs .song .content-section .loved #fill-heart{
+    color: green;
+}

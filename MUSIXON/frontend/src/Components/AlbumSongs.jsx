@@ -4,9 +4,12 @@ import { FaHeart } from "react-icons/fa";
 import { FiHeart } from "react-icons/fi";
 import { GoPlay } from "react-icons/go";
 import "../Styles_sheet/Artists.css";
+import axios from 'axios';
+// import { addToLikedSong, removeFromLiked } from "../../../backend/Controllers/AuthControllers";
 
-function AlbumSongs({ song, topImg, ret, songArray, likedSong }) {
+function AlbumSongs({userId, song, topImg, ret, songArray,isLiked}) {
   const [songs, setSongs] = useState(song);
+  const [rmvIdx,setrmvIdx] = useState([]);//to maintain the syncronization between backend and frontend status
 
   useEffect(() => {
     const allPara = document
@@ -21,16 +24,64 @@ function AlbumSongs({ song, topImg, ret, songArray, likedSong }) {
     allPara.forEach((i) => i.addEventListener("click", changeActive));
   }, []);
 
-  const changeFavourite = (idx) => {
-    let song_obj;
+  const addToLike = async(id,indx,song_name,song_src,song_img_src,singer_name,fav)=>{
+    const{data} = await axios.post("http://localhost:5000/addToLikedSong",{
+      id,indx,song_name,song_src,song_img_src,singer_name,fav
+    },{
+      withCredentials:true,
+    });
+    console.log(data);
+  }
+
+  const removeLike = async(id,song_name)=>{
+    const{data} = await axios.post("http://localhost:5000/removeFromLiked",{
+      id,song_name
+    },{
+      withCredentials:true,
+    });
+    console.log(data);
+  }
+
+  const changeFavourite = async(idx) => {
+    let isPresentInDB = false;
+
+    isLiked.forEach((ele)=>{
+      if(ele.indx===idx){
+        if(ele.fav) isPresentInDB = true;
+      }
+    })
+    
+    rmvIdx.forEach((ele)=>{
+      if(ele===idx) isPresentInDB = false;
+    })
     songs.forEach((sng) => {
       if (sng.idx === idx) {
-        sng.fav = !sng.fav;
-        song_obj = sng;
+        console.log("found it   --> ");
+        if(sng.fav || isPresentInDB){
+          // remove from favourit list...
+          sng.fav=false;
+          let arr = rmvIdx;
+          arr.push(idx);
+          setrmvIdx(()=>arr);
+          removeLike(userId,sng.song_name);
+        }
+        else{
+          // add to favourit list..
+          let ind=0;
+          rmvIdx.forEach((ele)=>{
+            if(ele===idx){
+              let a = rmvIdx;
+              a.splice(ind,1);
+              setrmvIdx(()=>a);
+            }
+            ind+=1;
+          })
+          sng.fav=true;
+          addToLike(userId,sng.idx,sng.song_name,sng.song_src,sng.song_img_src,sng.singer_name,true);
+        }
       }
     });
     setSongs([...songs]);
-    return likedSong(song_obj);
   };
 
   const handleCurrSong = (obj) => {
@@ -39,8 +90,24 @@ function AlbumSongs({ song, topImg, ret, songArray, likedSong }) {
     return songArray(arr);
   };
 
-  const handleSongList = () =>{
+  const handleSongList = () => {
     return songArray(songs);
+  };
+
+  const checkIsLiked = (idx) =>{
+    let value = false;
+    isLiked.forEach((ele)=>{
+      if(ele.indx===idx){
+        if(ele.fav) value = true;
+      }
+    })
+    rmvIdx.forEach((ele)=>{
+      if(ele===idx){
+        console.log(idx);
+        value=false;
+      }
+    })
+    return value;
   }
 
   return (
@@ -51,11 +118,13 @@ function AlbumSongs({ song, topImg, ret, songArray, likedSong }) {
       </div>
       <div className="musicList">
         <h2 className="title">
-          Popular{" "}
+          Popular
           <span id="bc-art-sec" onClick={() => ret()}>
             Albums
           </span>
-          <i id="play-all-margin" onClick={handleSongList}><GoPlay /></i>
+          <i id="play-all-margin" onClick={handleSongList}>
+            <GoPlay />
+          </i>
         </h2>
         <div className="song-container">
           {song &&
@@ -77,7 +146,7 @@ function AlbumSongs({ song, topImg, ret, songArray, likedSong }) {
                       className="loved"
                       onClick={() => changeFavourite(obj.idx)}
                     >
-                      {obj.fav ? (
+                      { (obj.fav || checkIsLiked(obj.idx)===true) ? (
                         <i id="fill-heart">
                           <FaHeart />
                         </i>

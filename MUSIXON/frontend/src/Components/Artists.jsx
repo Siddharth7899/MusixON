@@ -3,12 +3,35 @@ import artists from "./ArtistsList";
 import ArtistSongs from "./ArtistSongs";
 import "../Styles_sheet/Artists.css";
 import { BsFillPlayCircleFill } from "react-icons/bs";
+import {Cookies, useCookies} from 'react-cookie';
+import axios from 'axios';
 
-function Artists({ songList, updateLiked }) {
+function Artists({ songList,userId }) {
   const [shw, setShw] = useState(true);
   const [singerName, setSingerName] = useState(null);
   const [singerImage, setSingerImage] = useState(null);
-  const [songs, setSongs] = useState(null);
+  const [songs, setSongs] = useState();
+  const [cookies,removeCookies] = useCookies([]);
+  const [likedSong,setLikedSong] = useState();
+
+  useEffect(()=>{
+    const func = async()=>{
+      if(!cookies.jwt){
+        console.log("user not present");
+      }
+      else{
+        const { data } = await axios.post(
+          "http://localhost:5000/giveLikedSong",
+          {id:userId},
+          { withCredentials: true }
+        );
+        let arr = data.likedSongList;
+        setLikedSong(()=>arr);
+      }
+    }
+    func();
+  },[cookies]);
+
 
   const handleClick = (singer_name, singer_img, song) => {
     setSingerName(singer_name);
@@ -21,10 +44,6 @@ function Artists({ songList, updateLiked }) {
 
   const handleSongArray = (arr) => {
     return songList(arr);
-  };
-
-  const changeLiked = (song_obj) => {
-    return updateLiked(song_obj);
   };
 
   return (
@@ -70,7 +89,8 @@ function Artists({ songList, updateLiked }) {
           singerImage={singerImage}
           ret={() => setShw(true)}
           songArray={handleSongArray}
-          likedSong={changeLiked}
+          userId = {userId}
+          isLiked = {likedSong}
         />
       )}
     </>

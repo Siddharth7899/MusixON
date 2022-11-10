@@ -5,21 +5,41 @@ import "../Styles_sheet/MainMenu.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {BsFillPlayCircleFill} from "react-icons/bs"
+import {BsFillPlayCircleFill} from "react-icons/bs";
+import {MdArrowDropDown} from "react-icons/md";
 import {FiCheck} from "react-icons/fi"
 import {FaArrowCircleRight} from "react-icons/fa"
 import {FaArrowCircleLeft} from "react-icons/fa"
 import SliderList from "./SliderContent"
-import Profile from './Profile';
 import { Link,Outlet } from "react-router-dom";
 import Recently from './Recently';
 import Trending from './Trending';
 import SliderSong from './SliderSong';
 import SliderSongList from "./SliderSongList";
+import { Cookies, useCookies } from "react-cookie";
 
-function MainMenu({updateLiked,songList,name,recentSongsList}) {
+function MainMenu({userId,songList,name,recentSongsList,logout}) {
   const[shw,setShw] = useState(true);
   const[songs,setSongs] = useState(null);
+  const [cookies,setCookies,removeCookies] = useCookies([]);
+  const [isLogout,setLogout] = useState(false);
+  
+  // useEffect(() => {
+  //   const func = async () => {
+  //     if (!cookies.jwt) {
+  //       console.log("user not present");
+  //     } else {
+  //       const { data } = await axios.post(
+  //         "http://localhost:5000/giveLikedSong",
+  //         { id: userId },
+  //         { withCredentials: true }
+  //       );
+  //       console.log(data.likedSongList);
+  //     }
+  //   };
+  //   func();
+  // }, [cookies]);
+
   //slider state hook
   const[slideIndex,setSlideIndex] = useState(1);
     const nextSlide = ()=>{
@@ -55,8 +75,11 @@ function MainMenu({updateLiked,songList,name,recentSongsList}) {
     if(songs!==null) setShw(false);
   }
 
-  const changeLiked = (song_obj) =>{
-    return updateLiked(song_obj);
+  const handleLogout = async()=>{
+    setLoginPopup(true);
+    removeCookies("jwt");
+    // got to main login/signup page
+    return logout();
   }
 
   return (
@@ -65,11 +88,8 @@ function MainMenu({updateLiked,songList,name,recentSongsList}) {
       {shw ? 
          <div className="topEffect">
          <div className="lg-sg">
-           <a href="#" onClick={()=>setLoginPopup(true)}>{name ? name : "Shubhra"}</a>
-           {/* <Profile
-             open={loginPopup}
-             close={()=>setLoginPopup(false)}
-           /> */}
+           <a href="#" onClick={()=>setLogout(prevValue => !prevValue)}>{name?name:"MusixON"}</a>
+           { isLogout ? <a href="#" id="logout-btn" onClick={handleLogout}>Logout</a> : null}
          </div>
       </div> : null}
           {
@@ -104,7 +124,7 @@ function MainMenu({updateLiked,songList,name,recentSongsList}) {
         <Trending songArray={handleSongArray}/>
          <Recently songArray={handleSongArray} recentList={recentSongsList}/>
         </div> :
-        <SliderSong song={songs} ret={()=>setShw(true)} likedSong={changeLiked} songArray={handleSongArray}/>
+        <SliderSong song={songs} ret={()=>setShw(true)} songArray={handleSongArray}/>
       }   
     </div>
   )

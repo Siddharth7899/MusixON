@@ -64,11 +64,11 @@ module.exports.register = async(req,res,next)=>{
 module.exports.googlelogin = async(req,res,next)=>{
     try{
         const {tokenId} = req.body;
-        console.log(tokenId);
+        // console.log(tokenId);
         client.verifyIdToken({idToken : tokenId,audience:"634193116808-mhg7vbt3hph1bg2sb0sfia6skijf3o71.apps.googleusercontent.com"}).then(response =>{
             const {email_verified,name,email} = response.payload;
-            console.log("this is payloaad :",response.payload);
-            console.log("payload ends");
+            // console.log("this is payloaad :",response.payload);
+            // console.log("payload ends");
             if(email_verified){
                 Guest.findOne({email}).exec((err,guest)=>{
                     if(err){
@@ -88,10 +88,10 @@ module.exports.googlelogin = async(req,res,next)=>{
                         else{
                             let password = email + process.env.SECURING_AUTO_GEN_GOOGLE_PASSWORD;
                             let newGuest = new Guest({name,email,password});
-                            console.log(newGuest);
+                            // console.log(newGuest);
                             newGuest.save((err,guest)=>{
                                 if(err){
-                                    console.log("yaha tak chal raha hai!!",newGuest);
+                                    // console.log("yaha tak chal raha hai!!",newGuest);
                                     return res.status(400).json({
                                         error: "something went wrong..."
                                     })
@@ -122,7 +122,7 @@ module.exports.googlelogin = async(req,res,next)=>{
 module.exports.login = async (req,res,next)=>{
     try{
         const {email,password} = req.body;
-        console.log(req.body);
+        // console.log(req.body);
         Guest.findOne({email}).exec(async (err,guest)=>{
             if(err){
                 return res.status(400).json({
@@ -160,7 +160,7 @@ module.exports.recentlyPlayedSongs = async (req,res,next)=>{
         const {id,indx,song_name,song_src,song_img_src,singer_name,fav}=req.body;
         // console.log(req.body);
         Guest.findById(id,(error,guest)=>{
-            console.log(guest);
+            // console.log(guest);
             if(error){
                 res.status(400).json({
                     message:"no user exist.."
@@ -198,6 +198,134 @@ module.exports.recentlyPlayedSongs = async (req,res,next)=>{
                             message:"recent list updated.."
                         })
                     }
+                })
+            }
+        })
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+module.exports.giveRecentSongs = async (req,res,next)=>{
+    try{
+        const {id}=req.body;
+        console.log("calling to fetch recent song",res.body);
+        Guest.findById(id,(guest,error)=>{
+            if(error){
+                res.status(400).json({
+                    message:"no user exist.."
+                })
+            }
+            else{
+                var temp = {
+                    _id:guest._id,
+                    name:guest.name,
+                    email:guest.email,
+                    recentlyPlayedSong:guest.recentlyPlayedSong,
+                }
+                res.json({status:true ,guest: temp});
+            }
+        })
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+module.exports.addToLikedSong = async (req,res,next)=>{
+    try{
+        const {id,indx,song_name,song_src,song_img_src,singer_name,fav}=req.body;
+        // console.log("we are in liked song section");
+        // console.log(req.body);
+        // Guest.findOneAndUpdate({_id:id},{$unshift:{likedSong:{ indx:indx,
+        //     song_name:song_name,
+        //     song_src:song_src,
+        //     song_img_src:song_img_src,
+        //     singer_name:singer_name,
+        //     fav:true,
+        //     }}},(err,data)=>{
+        //     if(err){
+        //         res.status(400).json({
+        //             message:"can not save to liked song list.."
+        //         })
+        //     }
+        //     else{
+        //         res.status(200).json({
+        //             message:"added to liked song list"
+        //         })
+        //     }
+        // })
+        Guest.findById(id,(error,guest)=>{
+            if(error){
+                res.status(400).json({
+                    message:"no user with this id exist.."
+                })
+            }
+            else{
+                guest.likedSong.unshift({
+                    indx:indx,
+                    song_name:song_name,
+                    song_src:song_src,
+                    song_img_src:song_img_src,
+                    singer_name:singer_name,
+                    fav:fav
+                })
+                guest.save((err,dataa)=>{
+                    if(err){
+                        res.status(400).json({
+                            message:"can not save to liked song list.."
+                        })
+                    }
+                    else{
+                        res.status(200).json({
+                            message:"added to liked song list"
+                        })
+                    }
+                })
+            }
+        })
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+module.exports.removeFromLiked = async (req,res,next)=>{
+    try{
+        const{id,song_name} = req.body;
+
+        Guest.findOneAndUpdate({_id:id},{$pull:{likedSong:{song_name:song_name}}},(err,data)=>{
+            if(err){
+                res.status(400).json({
+                    message:"can not remove from liked list try again"
+                })
+            }
+            else{
+                res.status(200).json({
+                    message:"removed song from liked list"
+                })
+            }
+        })
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+module.exports.giveLikedSong = async (req,res,next)=>{
+    try{
+        const{id}=req.body;
+        Guest.findById(id,(error,guest)=>{
+            if(error){
+                res.status(400).json({
+                    message:"can not fetch liked songs"
+                })
+            }
+            else{
+                res.status(200).json({
+                    message:"sending liked song list",
+                    likedSongList:guest.likedSong,
                 })
             }
         })

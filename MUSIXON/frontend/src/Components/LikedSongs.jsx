@@ -4,8 +4,55 @@ import { FiHeart } from 'react-icons/fi';
 import { GoPlay } from 'react-icons/go';
 import "../Styles_sheet/LikedSong.css";
 import "../Styles_sheet/Artists.css";
+import {Cookies, useCookies} from 'react-cookie';
+import axios from 'axios';
 
-function LikedSongs({likedSong}) {
+function LikedSongs({songList,userId}) {
+  const [songs, setSongs] = useState([]);
+  const [cookies,removeCookies] = useCookies([]);
+
+  useEffect(()=>{
+    const func = async()=>{
+      if(!cookies.jwt){
+        console.log("user not present");
+      }
+      else{
+        const { data } = await axios.post(
+          "http://localhost:5000/giveLikedSong",
+          {id:userId},
+          { withCredentials: true }
+        );
+        setSongs([...data.likedSongList]);
+        console.log(data);
+      }
+    }
+    func();
+  },[cookies]);
+  
+  //Ading active classes
+  useEffect(() => {
+    const allPara = document
+      .querySelector(".liked-song-container .artist-container .song-container")
+      .querySelectorAll(".songName");
+
+    function changeActive() {
+      allPara.forEach((i) => i.classList.remove("active"));
+      this.classList.add("active");
+    }
+
+    allPara.forEach((i) => i.addEventListener("click", changeActive));
+  }, []);
+
+  const handleCurrSong = (obj) =>{
+    let arr = [];
+    arr.push(obj);
+    return songList(arr);
+  }
+  
+  const handleSongList = () =>{
+    return songList(songs);
+  }
+
   return (
     <div className="liked-song-container">
       <div className="top-lk-sec">
@@ -15,7 +62,7 @@ function LikedSongs({likedSong}) {
          <div className="content-lk-sec">
            <h3>Liked Songs</h3>
            <p id="lk-playlist">PLAYLIST</p>
-           <p id="lk-song-count">{likedSong.length} songs</p>
+           <p id="lk-song-count">{songs.length} songs</p>
          </div>
          <div className="btmEffect"></div>
       </div>
@@ -24,10 +71,10 @@ function LikedSongs({likedSong}) {
          <div className="title-lk">
            <p># Title</p>
            <p>Singer</p>
-           <i><GoPlay /></i>
+           <i onClick={handleSongList}><GoPlay /></i>
          </div>
          <div className="song-container inc-song-cont-hgt">
-            {likedSong && likedSong.map((obj,idx)=>(
+            {songs && songs.map((obj,idx)=>(
                 <div className="songs" key={idx}>
                 <div className="count">{idx+1}</div>
                 <div className="song">
@@ -36,7 +83,7 @@ function LikedSongs({likedSong}) {
                     </div>
                      
                     <div className="content-section">
-                        <p className="songName" >
+                        <p className="songName" onClick={() => handleCurrSong(obj)} >
                             {obj.song_name}
                             <span className="singerName">{obj.singer_name}</span>
                         </p>

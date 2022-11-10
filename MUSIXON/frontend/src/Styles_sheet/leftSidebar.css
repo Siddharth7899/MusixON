@@ -54,6 +54,7 @@
 
 .lf_menu .sectionContainer .chSecContaier a{
   text-decoration: none;
+  margin-bottom: 10px;
 }
 
 .lf_menu .sectionContainer  a:before{

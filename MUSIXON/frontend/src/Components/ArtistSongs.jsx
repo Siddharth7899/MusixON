@@ -5,6 +5,7 @@ import { FaHeart } from "react-icons/fa";
 import { FiHeart } from "react-icons/fi";
 import {GoPlay} from "react-icons/go";
 import "../Styles_sheet/Artists.css";
+import axios from 'axios';
 
 function ArtistSongs({
   singerName,
@@ -12,10 +13,12 @@ function ArtistSongs({
   singerImage,
   ret,
   songArray,
-  likedSong,
+  userId,
+  isLiked
 }) {
   const [songs, setSongs] = useState(song);
-
+  const [rmvIdx,setrmvIdx] = useState([]);//to maintain the syncronization between backend and frontend status
+  
   useEffect(() => {
     const allPara = document
       .querySelector(".artist-container .song-container")
@@ -29,16 +32,64 @@ function ArtistSongs({
     allPara.forEach((i) => i.addEventListener("click", changeActive));
   }, []);
 
+  const addToLike = async(id,indx,song_name,song_src,song_img_src,singer_name,fav)=>{
+    const{data} = await axios.post("http://localhost:5000/addToLikedSong",{
+      id,indx,song_name,song_src,song_img_src,singer_name,fav
+    },{
+      withCredentials:true,
+    });
+    console.log(data);
+  }
+
+  const removeLike = async(id,song_name)=>{
+    const{data} = await axios.post("http://localhost:5000/removeFromLiked",{
+      id,song_name
+    },{
+      withCredentials:true,
+    });
+    console.log(data);
+  }
+
   const changeFavourite = (idx) => {
-    let song_obj;
+    let isPresentInDB = false;
+
+    isLiked.forEach((ele)=>{
+      if(ele.indx===idx){
+        if(ele.fav) isPresentInDB = true;
+      }
+    })
+    
+    rmvIdx.forEach((ele)=>{
+      if(ele===idx) isPresentInDB = false;
+    })
     songs.forEach((sng) => {
-      if (sng.idx == idx) {
-        sng.fav = !sng.fav;
-        song_obj = sng;
+      if (sng.idx === idx) {
+        console.log("found it   --> ");
+        if(sng.fav || isPresentInDB){
+          // remove from favourit list...
+          sng.fav=false;
+          let arr = rmvIdx;
+          arr.push(idx);
+          setrmvIdx(()=>arr);
+          removeLike(userId,sng.song_name);
+        }
+        else{
+          // add to favourit list..
+          let ind=0;
+          rmvIdx.forEach((ele)=>{
+            if(ele===idx){
+              let a = rmvIdx;
+              a.splice(ind,1);
+              setrmvIdx(()=>a);
+            }
+            ind+=1;
+          })
+          sng.fav=true;
+          addToLike(userId,sng.idx,sng.song_name,sng.song_src,sng.song_img_src,sng.singer_name,true);
+        }
       }
     });
     setSongs([...songs]);
-    return likedSong(song_obj);
   };
 
   const handleCurrSong = (obj) => {
@@ -49,6 +100,22 @@ function ArtistSongs({
 
   const handleSongList = () =>{
     return songArray(songs);
+  }
+  
+  const checkIsLiked = (idx) =>{
+    let value = false;
+    isLiked.forEach((ele)=>{
+      if(ele.indx===idx){
+        if(ele.fav) value = true;
+      }
+    })
+    rmvIdx.forEach((ele)=>{
+      if(ele===idx){
+        console.log(idx);
+        value=false;
+      }
+    })
+    return value;
   }
 
   return (
@@ -76,9 +143,9 @@ function ArtistSongs({
         </h2>
         <div className="song-container">
           {songs &&
-            songs.map((obj, idx) => (
-              <div className="songs" key={idx}>
-                <div className="count">{idx + 1}</div>
+            songs.map((obj, index) => (
+              <div className="songs" key={index}>
+                <div className="count">{index + 1}</div>
                 <div className="song">
                   <div className="img">
                     <img src={obj.song_img_src} alt="pic" />
@@ -94,7 +161,7 @@ function ArtistSongs({
                       className="loved"
                       onClick={() => changeFavourite(obj.idx)}
                     >
-                      {obj.fav ? (
+                      { (obj.fav || checkIsLiked(obj.idx)===true) ? (
                         <i id="fill-heart">
                           <FaHeart />
                         </i>

@@ -37,11 +37,6 @@ const NavBarList = [
     },
     {
         id : 5,
-        icon : <FcAddDatabase/>,
-        name : "Create Playlist"
-    },
-    {
-        id : 6,
         icon : <FcLike />,
         name : "Liked Songs"
     }

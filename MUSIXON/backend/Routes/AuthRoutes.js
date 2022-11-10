@@ -1,4 +1,4 @@
-const {register,googlelogin,login,recentlyPlayedSongs} = require("../Controllers/AuthControllers");
+const {register,googlelogin,login,recentlyPlayedSongs,giveRecentSongs,addToLikedSong,removeFromLiked,giveLikedSong} = require("../Controllers/AuthControllers");
 const {checkUser} = require("../Middlewares/AuthMiddlewares");
 
 const router = require("express").Router();
@@ -8,5 +8,9 @@ router.post("/register",register);
 router.post("/googlelogin",googlelogin);
 router.post("/login",login);
 router.post("/recentlyPlayedSongs",recentlyPlayedSongs);
+router.post("/giveRecentSongs",giveRecentSongs);
+router.post("/addToLikedSong",addToLikedSong);
+router.post("/removeFromLiked",removeFromLiked);
+router.post("/giveLikedSong",giveLikedSong);
 
 module.exports = router;

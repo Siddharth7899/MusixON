@@ -52,6 +52,22 @@
     flex-direction: row-reverse;
 }
 
+.mn_menu .sliderContainer .topEffect #logout-btn{
+    /* margin-right:40px !important; */
+    border: 0px solid white !important;
+    background-color: #191414;
+    border-radius: 5px !important;
+    padding: 4px;
+    font-family:cursive;
+    font-weight: 200;
+    margin-top: 5px;
+}
+
+.mn_menu .sliderContainer .topEffect #logout-btn:hover{
+    color: white !important;
+
+}
+
 .mn_menu .sliderContainer .topEffect a{
     font-size: 18px;
     color: rgb(219, 229, 232);
@@ -59,8 +75,16 @@
     margin: auto;
     border: 1px solid white;
     border-radius: 30px;
-    padding: 3px;
+    padding: 2px;
     margin-right: 10px;
+    text-align: center;
+    font-weight: 400;
+    font-family: cursive;
+}
+
+.mn_menu .sliderContainer .topEffect a:hover{
+    color:black;
+    border:1px solid black
 }
 
 .mn_menu .sliderContainer .slides .slideContent{
@@ -181,7 +205,12 @@
     align-items: center;
     overflow-x: scroll;
     overflow-y: scroll;
+    margin-right: 7px;
     /* margin: auto; */
+}
+
+.mn_menu .songs-container .songs-row .recent-song-card{
+    justify-content: left !important;
 }
 
 .mn_menu .songs-container .songs-row .songs-card .songs{
@@ -242,8 +271,10 @@
     font-family: cursive;
     margin-top: 5px;
     height: 22px;
+    width: 150px;
     overflow-y:scroll;
     overflow-x: hidden;
+    text-align: center;
 }
 
 .mn_menu .songs-container .songs-row .songs-card .songs #singer{
@@ -253,8 +284,10 @@
     margin-top: 5px;
     font-family: 'Times New Roman', Times, serif;
     height: 18px;
+    width: 150px;
     overflow-y:scroll;
     overflow-x: hidden;
+    text-align: center;
 }
 
 

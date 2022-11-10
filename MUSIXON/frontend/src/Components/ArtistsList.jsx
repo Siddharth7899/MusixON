@@ -13,7 +13,7 @@ const artists = [
         singer_name:"Arman Malik",
         songs:[
             {idx:4, fav:false, song_src:"https://pwdown.com/14697/Pehla%20Pyaar%20-%20Kabir%20Singh.mp3",song_name:"Pehla Pyar",song_img_src:"https://i.ytimg.com/vi/B7SkAq_94J8/maxresdefault.jpg",singer_name:"Arman Malik"},
-            {idx:5, fav:false, song_src:"https://pwdown.com/12531/Kuch%20To%20Hai%20-%20Armaan%20Malik%20320Kbps.mp3",song_name:"Kuch To Hai",song_img_src:"https://c.saavncdn.com/677/Do-Lafzon-Ki-Kahani-Hindi-2016-500x500.jpg",singer_name:"Arman Malik"},
+            {idx:5, fav:false, song_src:"https://pagalsong.in/download/11214/Bol%20Do%20Na%20Zara%20320%20KBPS%20mp3",song_name:"Bol Do NA Zara",song_img_src:"https://c.saavncdn.com/709/Bol-Do-Na-Zara-Instrumental-Hindi-2018-20181221231527-500x500.jpg",singer_name:"Arman Malik"},
             {idx:6, fav:false, song_src:"https://pwdown.com/12531/Jab%20Tak%20(M.S.%20Dhoni)%20Armaan%20Malik%20320Kbps.mp3",song_name:"Jab Tak",song_img_src:"https://i.ytimg.com/vi/K-Ts-NFR62o/maxresdefault.jpg",singer_name:"Arman Malik"}
         ]
     },

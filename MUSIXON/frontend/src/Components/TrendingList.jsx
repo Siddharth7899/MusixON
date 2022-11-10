@@ -55,7 +55,7 @@ const trending = [
     song_img_src:
       "https://upload.wikimedia.org/wikipedia/commons/0/01/Sabrina_Carpenter_12-02-2016_-15_%2831466425710%29_%28cropped%29.jpg",
   },
-  
+  {idx:55, fav:false, song_src:"https://pagalworld.com.vc/files/download/id/2755",song_name:"Zara-Zara",song_img_src:"https://c.saavncdn.com/295/Zara-Zara-Hindi-2021-20210618091751-500x500.jpg",singer_name:"JalRaj"}
 ];
 
 export default trending;
