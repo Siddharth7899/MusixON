@@ -10,7 +10,6 @@ const {OAuth2Client} = require('google-auth-library');
 const { response } = require('express');
 const client = new OAuth2Client("634193116808-mhg7vbt3hph1bg2sb0sfia6skijf3o71.apps.googleusercontent.com")
 
-
 // for email sending....
 const mailgun = require("mailgun-js");
 const { addListener } = require('nodemon');
@@ -24,7 +23,6 @@ const createToken = (id)=>{
         expiresIn: maxAge,
     });
 };
-
 
 module.exports.register = async(req,res,next)=>{
     try{
@@ -370,4 +368,31 @@ module.exports.resetPassword = async(req,res,next)=>{
     catch(err){
         console.log(err);
     }
+}
+module.exports.changePassword = async(req,res,next)=>{
+    const{email,password}=req.body;
+    bcrypt.hash(password,saltRound,function(error,hash){
+        Guest.findOne({email}).exec((err,guest)=>{
+            if(err){
+                res.status(400).json({
+                    message:"can not reset password try again"
+                })
+            }
+            else{
+                guest.password=password;
+                guest.save((err,data)=>{
+                    if(err){
+                        res.status(400).json({
+                            message:"something went wrong.."
+                        })
+                    }
+                    else{
+                        res.status(200).json({
+                            message:"recent list updated.."
+                        })
+                    }
+                })
+            }
+        })
+    })
 }
