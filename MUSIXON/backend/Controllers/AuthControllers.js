@@ -10,7 +10,6 @@ const {OAuth2Client} = require('google-auth-library');
 const { response } = require('express');
 const client = new OAuth2Client("634193116808-mhg7vbt3hph1bg2sb0sfia6skijf3o71.apps.googleusercontent.com")
 
-
 // for email sending....
 const mailgun = require("mailgun-js");
 const { addListener } = require('nodemon');
