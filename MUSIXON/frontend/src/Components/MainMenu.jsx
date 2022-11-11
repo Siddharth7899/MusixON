@@ -108,10 +108,10 @@ function MainMenu({userId,songList,name,recentSongsList,logout}) {
                       <i><BsFillPlayCircleFill/></i>
                       <span>Play</span>
                     </a>
-                    <a href="#" id="btm2">
+                    {/* <a href="#" id="btm2">
                       <i><FiCheck/></i>
                       <span>Follow</span>
-                    </a>
+                    </a> */}
                  </div>
               </div> : null }
               </div>

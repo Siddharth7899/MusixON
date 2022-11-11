@@ -164,7 +164,7 @@ function MediaPlayer({songs,userId,updateLiked}){;
           <p id="msc-con1">{currSong.song_name}</p>
           <p id="msc-con2">{currSong.singer_name}</p>
         </div>
-        {currSong.fav ? <i id="liked" onClick={()=>changeFavourite(currSong)} ><FaHeart /></i> : <i id="not-liked" onClick={()=>changeFavourite(currSong)}><FiHeart /></i>}
+        {/* {currSong.fav ? <i id="liked" onClick={()=>changeFavourite(currSong)} ><FaHeart /></i> : <i id="not-liked" onClick={()=>changeFavourite(currSong)}><FiHeart /></i>} */}
       </div>
       <div className="middle-music-part">
         <div className="top-middle-msc">

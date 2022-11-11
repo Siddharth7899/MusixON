@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import GoogleLogin from "react-google-login";
 import { AiOutlineClose } from "react-icons/ai";
+import ForgotPassword from "./ForgotPassword";
 import "../Styles_sheet/Login.css";
 import axios from "axios";
 
 function Login({ open, close, home }) {
+
+  const [forget,setForget] = useState(false);
+  const [otp,setOtp] = useState();
+
   const responseSuccessGoogle = async (response) => {
     console.log(response);
     try {
@@ -25,8 +30,8 @@ function Login({ open, close, home }) {
           console.log("In corrcet credentials.");
         } else {
           // go to home page..
-          
-          return home("home");
+          console.log("you can go home");
+          return home(loginData);
         }
       }
     } catch (err) {
@@ -86,7 +91,8 @@ function Login({ open, close, home }) {
 
   if (!open) return null;
   return ReactDOM.createPortal(
-    <form className="overLay" onSubmit={handleSubmit}>
+    <>
+    { !forget ? <form className="overLay" onSubmit={handleSubmit}>
       <div className="lg-container">
         <div className="top-lg">
           <img
@@ -134,10 +140,11 @@ function Login({ open, close, home }) {
         </div>
         <div className="btm-content">
           <p>password ?</p>
-          <a href="#">forgotPassword</a>
+          <a href="#" onClick={()=>setForget(true)}>forgotPassword</a>
         </div>
       </div>
-    </form>,
+    </form> : <ForgotPassword close={()=>setForget(false)}/> } 
+    </>,
     document.getElementById("portal1")
   );
 }

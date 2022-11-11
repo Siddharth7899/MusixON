@@ -28,6 +28,28 @@ function LikedSongs({songList,userId}) {
     }
     func();
   },[cookies]);
+
+  const removeLike = async(id,song_name)=>{
+    const{data} = await axios.post("http://localhost:5000/removeFromLiked",{
+      id,song_name
+    },{
+      withCredentials:true,
+    });
+    console.log(data);
+  }
+  
+  const removeFavourite = (idx) =>{
+    let index=0;
+    let arr = songs;
+    arr.forEach((ele)=>{
+      if(ele.indx===idx){
+        arr.splice(index,1);
+        removeLike(userId,ele.song_name);
+      }
+      index+=1;
+    })
+    setSongs([...arr]);
+  }
   
   //Ading active classes
   useEffect(() => {
@@ -52,7 +74,7 @@ function LikedSongs({songList,userId}) {
   const handleSongList = () =>{
     return songList(songs);
   }
-
+ 
   return (
     <div className="liked-song-container">
       <div className="top-lk-sec">
@@ -88,7 +110,7 @@ function LikedSongs({songList,userId}) {
                             <span className="singerName">{obj.singer_name}</span>
                         </p>
 
-                       <div className="loved">
+                       <div className="loved" onClick={()=>removeFavourite(obj.indx)}>
                         {obj.fav ? <i id="fill-heart"><FaHeart /></i> : <i><FiHeart /></i>}
                        </div>
                     </div>

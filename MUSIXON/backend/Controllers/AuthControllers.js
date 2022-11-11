@@ -334,3 +334,40 @@ module.exports.giveLikedSong = async (req,res,next)=>{
         console.log(err);
     }
 }
+
+module.export.resetPassword = async(req,res,next)=>{
+    try{
+        const{key,id}=req.body;
+        Guest.findById(id,(error,guest)=>{
+            if(error){
+                res.status(400).json({
+                    message:"resend otp"
+                })
+            }
+            else{
+                const email=guest.email;
+                const data={
+                    from:'MusixOn.org',
+                    to:email,
+                    subject:'reset password',
+                    html:`
+                        <h2>DO not share your otp --> ${key}</h2>
+                    `
+                }
+                mg.message().send(data,function(error,body){
+                    if(error){
+                        res.status(400).json({
+                            message:"resend otp"
+                        })
+                    }
+                    res.status(200).json({
+                        message:"go check email!!!"
+                    })
+                })
+            }
+        })
+    }
+    catch(err){
+        console.log(err);
+    }
+}

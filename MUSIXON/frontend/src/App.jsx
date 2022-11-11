@@ -22,7 +22,7 @@ function App() {
   const [userName,setUserName] = useState(null);
   const [userId,setUserId ] = useState(null);
   const [recentPlayedSongs,setRecentPlayedSongs] = useState(null);
-
+  
   useEffect(()=>{
     const verifyUser = async()=>{
       if(!cookies.jwt){
@@ -48,7 +48,8 @@ function App() {
           console.log("you are in haome page");
           console.log(data);
           let name = data.guest.name;
-          setUserName(()=>name);
+          // funk();
+          setUserName(name);
           // home..
           setUserExists(true);
           setUserId(data.guest._id);
@@ -63,7 +64,7 @@ function App() {
       }
     }
     verifyUser();
-  },[cookies,removeCookies,userName,userId]);
+  },[cookies,removeCookies,userName!=null]);
 
   //handling songs for mediaPlayer
   const handleSongList = (arr) => {
