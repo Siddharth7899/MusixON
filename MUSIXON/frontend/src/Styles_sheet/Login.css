@@ -31,6 +31,10 @@
   /* margin-left: 430px; */
 }
 
+.overLay .lg-otp{
+  height: 320px !important;
+}
+
 .overLay .sg-container {
   height: 610px !important;
 }
@@ -47,6 +51,10 @@
   top: 90px !important;
 }
 
+.overLay .lg-container .top-lg .otp-tp-icon{
+  top: 215px !important; 
+}
+
 .overLay .lg-container .top-lg i:hover {
   color: #2c65d6;
   cursor: pointer;
@@ -59,6 +67,10 @@
 
 .overLay .lg-container .h2-top {
   margin-bottom: 60px !important;
+}
+
+.overLay .lg-container .otp-top{
+  margin-bottom: 15px !important;
 }
 
 .overLay .lg-container .lg {
@@ -83,7 +95,7 @@
 
 .overLay .lg-container .lg input[type="email"],
 .lg input[type="password"],
-.lg input[type="text"] {
+.lg input[type="text"],.lg input[type="number"] {
   border: none;
   border-bottom: 1px solid white;
   background: transparent;

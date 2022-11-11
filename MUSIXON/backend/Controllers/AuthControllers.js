@@ -335,7 +335,7 @@ module.exports.giveLikedSong = async (req,res,next)=>{
     }
 }
 
-module.export.resetPassword = async(req,res,next)=>{
+module.exports.resetPassword = async(req,res,next)=>{
     try{
         const{key,id}=req.body;
         Guest.findById(id,(error,guest)=>{

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import GoogleLogin from "react-google-login";
+import OtpPage from "./OtpPage";
 import { AiOutlineClose } from "react-icons/ai";
 import ForgotPassword from "./ForgotPassword";
 import "../Styles_sheet/Login.css";
@@ -9,7 +10,8 @@ import axios from "axios";
 function Login({ open, close, home }) {
 
   const [forget,setForget] = useState(false);
-  const [otp,setOtp] = useState();
+  const [otpPage,setOtpPage] = useState(false);
+  const [otp,setOtp] = useState(false);
 
   const responseSuccessGoogle = async (response) => {
     console.log(response);
@@ -92,7 +94,7 @@ function Login({ open, close, home }) {
   if (!open) return null;
   return ReactDOM.createPortal(
     <>
-    { !forget ? <form className="overLay" onSubmit={handleSubmit}>
+    { !otpPage ? <form className="overLay" onSubmit={handleSubmit}>
       <div className="lg-container">
         <div className="top-lg">
           <img
@@ -140,10 +142,10 @@ function Login({ open, close, home }) {
         </div>
         <div className="btm-content">
           <p>password ?</p>
-          <a href="#" onClick={()=>setForget(true)}>forgotPassword</a>
+          <a href="#" onClick={()=>setOtpPage(true)}>forgotPassword</a>
         </div>
       </div>
-    </form> : <ForgotPassword close={()=>setForget(false)}/> } 
+    </form> : <OtpPage close={()=>setOtpPage(false)}/> } 
     </>,
     document.getElementById("portal1")
   );

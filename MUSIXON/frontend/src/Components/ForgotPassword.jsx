@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import "../Styles_sheet/Login.css";
 import { AiOutlineClose } from "react-icons/ai";
 
-function ForgotPassword({close}) {
+function ForgotPassword({backLogin}) {
 
    const [forgetPasswordData, setForgetPasswordData] = useState({
         email: "",
@@ -20,9 +20,9 @@ function ForgotPassword({close}) {
         });
     }
    
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        return close();
+        return backLogin();
     };
 
   return (
@@ -34,7 +34,7 @@ function ForgotPassword({close}) {
             alt="img"
             className="avatar-img"
           />
-          <i className="lg-tp-icon" onClick={()=>close()}>
+          <i className="lg-tp-icon" onClick={()=>backLogin()}>
             <AiOutlineClose />
           </i>
         </div>
