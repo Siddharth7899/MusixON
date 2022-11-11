@@ -25,7 +25,6 @@ const createToken = (id)=>{
     });
 };
 
-
 module.exports.register = async(req,res,next)=>{
     try{
         const{name, email, password} = req.body;
