@@ -369,3 +369,30 @@ module.export.resetPassword = async(req,res,next)=>{
         console.log(err);
     }
 }
+module.exports.changePassword = async(req,res,next)=>{
+    const{email,password}=req.body;
+    bcrypt.hash(password,saltRound,function(error,hash){
+        Guest.findOne({email}).exec((err,guest)=>{
+            if(err){
+                res.status(400).json({
+                    message:"can not reset password try again"
+                })
+            }
+            else{
+                guest.password=password;
+                guest.save((err,data)=>{
+                    if(err){
+                        res.status(400).json({
+                            message:"something went wrong.."
+                        })
+                    }
+                    else{
+                        res.status(200).json({
+                            message:"recent list updated.."
+                        })
+                    }
+                })
+            }
+        })
+    })
+}
