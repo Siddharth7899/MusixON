@@ -3,73 +3,86 @@ import "./App.css";
 import Home from "./Components/Home";
 import MainMenu from "./Components/MainMenu";
 import Artists from "./Components/Artists";
-import Albums from "./Components/Albums";
 import MediaPlayer from "./Components/MediaPlayer";
 import LikedSongs from "./Components/LikedSongs";
-import LikedList from "./Components/LikedList";
 import CreateAccount from "./Components/CreateAccount";
 import Search from "./Components/Search";
+import ArtistDetails from "./Components/ArtistDetails";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import {Cookies, useCookies} from 'react-cookie';
-import axios from 'axios';
+import { Cookies, useCookies } from "react-cookie";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { useGetTopChartsQuery } from "./redux/services/ShazamCore";
 
 function App() {
-
-  const [cookies,removeCookies] = useCookies([]);
+  //const {data,isFetching,error} = useGetTopChartsQuery();
+  //console.log(data);
+  // const {activeSong} = useSelector((state) => state.player);
+  const [cookies, removeCookies] = useCookies([]);
   const [liked, setLiked] = useState([]);
   const [songList, setSongList] = useState(null);
   const [userExists, setUserExists] = useState(false);
-  const [userName,setUserName] = useState(null);
-  const [userId,setUserId ] = useState(null);
-  const [recentPlayedSongs,setRecentPlayedSongs] = useState(null);
-  
-  useEffect(()=>{
-    const verifyUser = async()=>{
-      if(!cookies.jwt){
+  const [userName, setUserName] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [recentPlayedSongs, setRecentPlayedSongs] = useState(null);
+  const [currIndex, setCurrIndex] = useState(null);
+
+  useEffect(() => {
+    const verifyUser = async () => {
+      if (!cookies.jwt) {
         console.log("NO cookie set");
         setUserExists(false);
         // redirect to main page..
-      }
-      else{
+      } else {
         const { data } = await axios.post(
           "http://localhost:5000",
           {},
           { withCredentials: true }
         );
 
-        console.log(data.guest._id);
+        // console.log(data.guest._id);
 
-        if(!data.status){
+        if (!data.status) {
           removeCookies("jwt");
-          console.log("error cookie");
+          // console.log("error cookie");
           // redirect to signup page..
-        }
-        else{
-          console.log("you are in haome page");
-          console.log(data);
+        } else {
+          // console.log("you are in haome page");
+          //console.log(data);
           let name = data.guest.name;
           // funk();
           setUserName(name);
           // home..
           setUserExists(true);
           setUserId(data.guest._id);
-          if(data.guest.recentlyPlayedSong.length!==0){
+          if (data.guest.recentlyPlayedSong.length !== 0) {
             let arr = [];
             arr.unshift(data.guest.recentlyPlayedSong[0]);
-            setSongList(()=>arr);
-            setRecentPlayedSongs(()=>data.guest.recentlyPlayedSong);
-            console.log(songList);
+            setSongList(() => arr);
+            // console.log(data.guest.recentlyPlayedSong[0]);
+            setCurrIndex(0);
+            let recentArr = [];
+            for (
+              let i = 0;
+              i < data.guest.recentlyPlayedSong.length && i < 12;
+              i++
+            ) {
+              recentArr.push(data.guest.recentlyPlayedSong[i]);
+            }
+            setRecentPlayedSongs(() => recentArr);
+            // console.log(songList);
           }
         }
       }
-    }
+    };
     verifyUser();
-  },[cookies,removeCookies,userName!=null]);
+  }, [cookies, removeCookies, userName != null, recentPlayedSongs != null]);
 
   //handling songs for mediaPlayer
-  const handleSongList = (arr) => {
+  const handleSongList = (arr, i) => {
     let array = arr;
     setSongList(() => array);
+    if(i>=0) setCurrIndex(() => i);
   };
 
   //handling home page
@@ -78,31 +91,16 @@ function App() {
     setUserName(obj.name);
     setUserExists(true);
   };
-  
+
   return (
     <>
       <div className={userExists ? "App" : "App1"}>
-        {userExists ? <Home userId = {userId}/> : null}
+        {userExists ? <Home userId={userId} /> : null}
         {userExists ? (
           <Routes>
             <Route
               path="Artists"
-              element={
-                <Artists
-                  songList={handleSongList}
-                  userId = {userId}
-                />
-              }
-            />
-            <Route
-              path="Albums"
-              element={
-                <Albums
-                  songList={handleSongList}
-                  userId = {userId}
-                  likedSong = {liked}
-                />
-              }
+              element={<Artists songList={handleSongList} userId={userId} />}
             />
             <Route
               path="/"
@@ -110,10 +108,10 @@ function App() {
                 <MainMenu
                   userId={userId}
                   songList={handleSongList}
-                  name = {userName}
-                  recentSongsList = {recentPlayedSongs}
-                  likedSong = {liked}
-                  logout = {()=>setUserExists(false)}
+                  name={userName}
+                  recentSongsList={recentPlayedSongs}
+                  likedSong={liked}
+                  logout={() => setUserExists(false)}
                 />
               }
             ></Route>
@@ -123,37 +121,33 @@ function App() {
                 <MainMenu
                   userId={userId}
                   songList={handleSongList}
-                  name = {userName}
-                  recentSongsList = {recentPlayedSongs}
-                  likedSong = {liked}
-                  logout = {()=>setUserExists(false)}
+                  name={userName}
+                  recentSongsList={recentPlayedSongs}
+                  likedSong={liked}
+                  logout={() => setUserExists(false)}
                 />
               }
             ></Route>
-            <Route 
+            <Route
               path="Liked Songs"
-              element={
-                <LikedSongs 
-                  songList={handleSongList}
-                  userId = {userId}
-                />
-              }
+              element={<LikedSongs songList={handleSongList} userId={userId} />}
+            />
+            <Route
+              path="Search"
+              element={<Search songList={handleSongList} userId={userId} />}
             />
             <Route 
-              path="Search"
-              element={<Search 
-                songList={handleSongList}
-                userId = {userId}
-              />}
+              path="/Artists/:id"
+              element={<ArtistDetails songList={handleSongList}/>}
             />
           </Routes>
         ) : (
           <CreateAccount homePg={handleHomePage} />
         )}
       </div>
-      {songList && userExists ? <MediaPlayer songs={songList} userId = {userId}  
-      /> 
-      : null}
+      {((songList) && (userExists)) ? (
+        <MediaPlayer songs={songList} ind={currIndex} userId={userId} />
+      ) : null}
       <div className="appBack"></div>
     </>
   );

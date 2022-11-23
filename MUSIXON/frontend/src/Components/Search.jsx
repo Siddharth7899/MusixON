@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-import AlbumsList from "./AlbumsList";
-import ArtistList from "./ArtistsList";
-import SliderSongList from "./SliderSongList";
-import TrendingList from "./TrendingList";
 import "../Styles_sheet/Search.css";
 import { BsSearch } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa";
@@ -29,34 +25,6 @@ function Search({ songList ,userId}) {
     }
     allPara.forEach((i) => i.addEventListener("click", changeActive));
   },[])
-
-  //Populating the allSongs array for search functionality
-  AlbumsList.forEach((ele) => {
-    ele.songs.forEach((song) => {
-      arr.push(song);
-    });
-  });
-  ArtistList.forEach((ele) => {
-    ele.songs.forEach((song) => {
-      arr.push(song);
-    });
-  });
-  SliderSongList.forEach((ele) => {
-    ele.songs.forEach((song) => {
-      arr.push(song);
-    });
-  });
-  TrendingList.forEach((ele) => {
-    let song = {
-      idx: ele.idx,
-      fav: ele.fav,
-      song_src: ele.song_src,
-      song_name: ele.song_name,
-      singer_name: ele.singer_name,
-      song_img_src: ele.song_img_src,
-    };
-    arr.push(song);
-  });
 
   useEffect(() => {
     setAllSongs(arr);
@@ -148,18 +116,42 @@ function Search({ songList ,userId}) {
 
   const checkIsLiked = (idx) =>{
     let value = false;
-    isLiked.forEach((ele)=>{
+    isLiked?.forEach((ele)=>{
       if(ele.indx===idx){
         if(ele.fav) value = true;
       }
     })
-    rmvIdx.forEach((ele)=>{
+    rmvIdx?.forEach((ele)=>{
       if(ele===idx){
         console.log(idx);
         value=false;
       }
     })
     return value;
+  }
+
+  //Regex filter method for search
+
+  const includeMethod = (nam,str) =>{
+    var val=0;
+    nam = nam?.substring(0,5).toLowerCase();
+    str = str?.substring(0,5).toLowerCase();
+    if(nam.includes(str)) val=1;
+    return val;
+  }
+
+  const regexMethod = (nam,str) =>{
+    var val=0;
+    nam = nam.substring(0,5).toLowerCase();
+    str = str.substring(0,5).toLowerCase();
+    //regex patter from the user input
+    var pattern = str?.split("").map((it)=>{
+      return `(?=.*${it})`; 
+    }).join("");
+
+    var regex = new RegExp(`${pattern}`,"g");
+    if(nam.match(regex)) val=1;
+    return val;
   }
 
   return (
@@ -183,10 +175,7 @@ function Search({ songList ,userId}) {
           allSongs
             .filter((value) => {
               if (searched === "") return null;
-              else if (
-                value.song_name.toLowerCase().includes(searched.toLowerCase()) ||
-                value.singer_name.toLowerCase().includes(searched.toLowerCase())
-              ) {
+              else if(includeMethod(value?.song_name,searched) || regexMethod(value?.song_name,searched)){
                 return value;
               }
             })

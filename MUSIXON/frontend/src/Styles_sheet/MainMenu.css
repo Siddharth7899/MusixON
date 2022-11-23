@@ -296,4 +296,18 @@
     font-size: 22px;
     font-weight: 500;
     margin-left: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mn_menu .songs-container #recent span{
+    font-size: 18px !important;
+    margin-right: 12px;
+    color: rgb(251, 56, 56);
+    cursor: pointer;
+}
+
+.mn_menu .songs-container #recent span:hover{
+    color: #C71585;
 }

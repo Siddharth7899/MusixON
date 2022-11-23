@@ -67,6 +67,10 @@
   margin-top: -3px;
 }
 
+.lf_menu .sectionContainer #playListName:before{
+  background: none !important;
+}
+
 .lf_menu .sectionContainer  a:hover::before,
 .lf_menu .sectionContainer  a.active::before
 {
@@ -78,6 +82,10 @@
 .lf_menu .sectionContainer  a.active .sec-head
 {
   color: white;
+}
+
+.lf_menu .sectionContainer .sec-head:hover{
+  color: #fff;
 }
 
 /* Designing of playList Container */

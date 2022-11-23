@@ -11,12 +11,12 @@ import {GoMute} from "react-icons/go";
 import {GiSpeaker} from "react-icons/gi";
 import {MdRepeatOne} from "react-icons/md";
 import "../Styles_sheet/MediaPlayer.css";
+import ReactAudioPlayer from "react-audio-player";
 import axios from 'axios';
 
-function MediaPlayer({songs,userId,updateLiked}){;
-  const[index,setIndex] = useState(0);
-  const[currSong,setCurrSong] = useState(songs[0]);
-  const[isLiked,setIsLiked] = useState(false);
+function MediaPlayer({songs,ind,userId,updateLiked}){
+  const[index,setIndex] = useState(ind);
+  const[currSong,setCurrSong] = useState(songs[ind]);
   const[isPlay,setIsPlay] = useState(false);
   const[isMute,setIsMute] = useState(false);
   const[isRepeat,setIsRepeat] = useState(false);
@@ -30,27 +30,26 @@ function MediaPlayer({songs,userId,updateLiked}){;
   
   // Songs updated every time when new array of songs came
   useEffect(()=>{
-    setIndex(0);
-    setCurrSong(songs[0]);
-  },[songs]);
+    setIndex(ind);
+    setCurrSong(songs[ind]);
+  },[songs,ind]);
 
   //handleLikedSong
 
   const changeFavourite = (obj) =>{
-    obj.fav = !obj.fav;
+    // obj.fav = !obj.fav;
   }
-
   // send current playing song to backend..
-
   useEffect(()=>{
+    if(!currSong) return;
     const fun = async()=>{
-      console.log(userId);
+      //console.log(userId);
       const {data} = await axios.post("http://localhost:5000/recentlyPlayedSongs",{
-        id:userId,indx:songs[index].idx,song_name:songs[index].song_name,song_src:songs[index].song_src,song_img_src:songs[index].song_img_src,singer_name:songs[index].singer_name,fav:songs[index ].fav
-      },{
+        id:userId,indx:currSong?.idx,song_name:currSong?.song_name,song_src:currSong?.song_src,song_img_src:currSong?.song_img_src,singer_name:currSong?.singer_name,fav:false
+      },{ 
         withCredentials:true,
       });
-      console.log(data);
+      //console.log(data);
       return;
     }
     fun();
@@ -60,7 +59,7 @@ function MediaPlayer({songs,userId,updateLiked}){;
     const seconds = Math.floor(audioPlayer.current.duration);
     setDuration(seconds);
     progressBar.current.max = seconds;
-    changeCurrentTime();
+    // changeCurrentTime();
   },
   [audioPlayer?.current?.loadedmetadata,
    audioPlayer?.current?.readyState
@@ -120,6 +119,10 @@ function MediaPlayer({songs,userId,updateLiked}){;
     setCurrentTime(progressBar.current.value);
   }
 
+  const handleSongEnded = () =>{
+    setIsPlay(false);
+  }
+
   //repeat current song 
   const handleRepeat = () =>{
     setIsRepeat(!isRepeat);
@@ -150,19 +153,20 @@ function MediaPlayer({songs,userId,updateLiked}){;
   const handleShuffle = () =>{
     const newIndex = Math.floor(Math.random()*songs.length);
     if(newIndex>=songs.length) newIndex = songs.length-1;
-    setCurrSong(songs[newIndex]);
     setIndex(newIndex);
+    setCurrSong(songs[newIndex]);
   }
+  
 
   return (
     <div className="music-container">
       <div className="left-music-part">
-        <audio loop={isRepeat} src={currSong.song_src} preload="metadata" ref={audioPlayer}></audio>
+        <audio loop={isRepeat} src={currSong?.song_src} preload="metadata" ref={audioPlayer} onEnded={handleSongEnded}></audio>
            
-        <img src={currSong.song_img_src} alt="pic" />
+        <img src={currSong?.song_img_src} alt="pic" />
         <div className="content-music-lf">
-          <p id="msc-con1">{currSong.song_name}</p>
-          <p id="msc-con2">{currSong.singer_name}</p>
+          <p id="msc-con1">{currSong?.song_name}</p>
+          <p id="msc-con2">{currSong?.singer_name}</p>
         </div>
         {/* {currSong.fav ? <i id="liked" onClick={()=>changeFavourite(currSong)} ><FaHeart /></i> : <i id="not-liked" onClick={()=>changeFavourite(currSong)}><FiHeart /></i>} */}
       </div>

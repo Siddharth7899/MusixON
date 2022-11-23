@@ -2,8 +2,7 @@ import React, { useState,useEffect } from 'react'
 import {BsFillPlayCircleFill} from "react-icons/bs"
 
 function Recently({songArray,recentList}){
-  // const[recentPlayed,setRecentPlayed] = useState(null);
-  
+
   function handleSong(obj){
     let arr = [];
     arr.push(obj);
@@ -12,7 +11,7 @@ function Recently({songArray,recentList}){
 
   return (
     <>
-    <h2 id="recent">Recently Played</h2>
+    {recentList ? <h2 id="recent">Recently Played</h2> : null}
     <div className="songs-row">
     <div className="songs-card recent-song-card">
            {

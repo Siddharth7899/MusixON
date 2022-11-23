@@ -1,7 +1,8 @@
 .artist-container{
     z-index: 1;
     height: 100vh;
-    flex-grow: 1;
+    /* flex-grow: 1; */
+    width: 1240px;
 }
 
 .artist-container .top-picture{
@@ -60,16 +61,22 @@
     overflow-y: scroll;
     overflow-x: hidden;
     margin-top: 20px;
+    text-decoration: none;
 }
 
 .artist-container .artist-section .artist-card{
     display: flex;
-    height: 250px;
-    margin: 12px;
+    height: 240px;
     justify-content: space-between;
     align-items: center;
-    overflow-x: hidden;
+    overflow-x: scroll;
     overflow-y: scroll;
+    margin-right: 12px;
+    margin-top: 10px;
+}
+
+.artist-container .artist-section .artist-card a{
+    text-decoration: none;
 }
 
 .artist-container .artist-section .artist-card .artist{
@@ -77,24 +84,26 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 260px;
+    height: 240px;
     max-height:320px;
     width: 185px;
     background-color: rgb(20, 18, 18);
     border-radius: 10px;
+    margin-left: 12px;
 }
 
 .artist-container .artist-section .artist-card .artist img{
-    height:190px;
-    width:160px;
+    height:170px;
+    width:170px;
+    border-radius: 50%;
 }
 
 .artist-container .artist-section .artist-card .artist i{
     position: absolute;
     color: rgb(0, 101, 0);
     font-size: 0px;
-    margin-top: 150px;
-    margin-left: 140px;
+    /* margin-top: 150px;
+    margin-left: 140px; */
 }
 
 .artist-container .artist-section .artist-card .artist img:hover{
@@ -103,7 +112,7 @@
 
 .artist-container .artist-section .artist-card .artist img:hover+i{
   font-size: 38px;
-  transition: 0.2s ease;
+  /* transition: 0.2s ease; */
 }
 
 .artist-container .artist-section .artist-card .artist #name{
@@ -111,10 +120,11 @@
     font-size: 18px;
     font-weight: 400;
     font-family: cursive;
-    margin-top: 5px;
+    margin-top: 8px;
     height: 26px;
     overflow-x: hidden;
     overflow-y: scroll;
+    text-align: center;
 }
 
 .artist-container .artist-section .artist-card .artist:hover{
@@ -131,6 +141,20 @@
     margin-left: 12px;
     margin-top: 15px;
     font-family: 'Times New Roman', Times, serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.artist-container .artist-section #clk-see-all{
+    font-size: 18px !important;
+    margin-right: 12px;
+    color: rgb(251, 56, 56);
+    cursor: pointer;
+}
+
+.artist-container .artist-section #clk-see-all:hover{
+    color: #C71585;
 }
 
 /* designing of artistSong section */

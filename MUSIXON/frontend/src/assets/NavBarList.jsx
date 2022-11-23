@@ -32,13 +32,13 @@ const NavBarList = [
     },
     {
         id : 4,
-        icon : <FcAudioFile />,
-        name : "Albums"
+        icon : <FcLike />,
+        name : "Liked Songs"
     },
     {
         id : 5,
-        icon : <FcLike />,
-        name : "Liked Songs"
+        icon : <FcAddDatabase/>,
+        name : "CreatePlaylist"
     }
 ]
 
