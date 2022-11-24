@@ -13,6 +13,8 @@ import {MdRepeatOne} from "react-icons/md";
 import "../Styles_sheet/MediaPlayer.css";
 import ReactAudioPlayer from "react-audio-player";
 import axios from 'axios';
+import Error from '../assets/Error';
+import Loader from '../assets/Loader';
 
 function MediaPlayer({songs,ind,userId,updateLiked}){
   const[index,setIndex] = useState(ind);
@@ -32,6 +34,7 @@ function MediaPlayer({songs,ind,userId,updateLiked}){
   useEffect(()=>{
     setIndex(ind);
     setCurrSong(songs[ind]);
+    setIsPlay(false);
   },[songs,ind]);
 
   //handleLikedSong
@@ -74,7 +77,9 @@ function MediaPlayer({songs,ind,userId,updateLiked}){
       setIsMute(false);
     }
   },[volume])
-  
+
+  if(currSong?.idx==="undefined") return <Error />;
+
   const handleSound = () =>{
     setIsMute(!isMute);
     if(!isMute) setVolume(0);
@@ -130,6 +135,7 @@ function MediaPlayer({songs,ind,userId,updateLiked}){
 
   //next and previous buttons
   const handleNextSong = () =>{
+    setIsPlay(false);
     if(index>=songs.length-1){
       setIndex(0);
       setCurrSong(songs[0]);
@@ -140,6 +146,7 @@ function MediaPlayer({songs,ind,userId,updateLiked}){
   }
 
   const handlePreviousSong = () =>{
+    setIsPlay(false);
     if(index>0){
       setIndex(prevCount => prevCount-1);
       setCurrSong(songs[index-1]);
@@ -151,6 +158,7 @@ function MediaPlayer({songs,ind,userId,updateLiked}){
   
   //Shuffle Functionality
   const handleShuffle = () =>{
+    setIsPlay(false);
     const newIndex = Math.floor(Math.random()*songs.length);
     if(newIndex>=songs.length) newIndex = songs.length-1;
     setIndex(newIndex);
@@ -182,7 +190,7 @@ function MediaPlayer({songs,ind,userId,updateLiked}){
         <div className="btm-middle-msc">
            <p className="duration">{calculateTime(currentTime)}</p>
 
-           <input type="range" id="range" onChange={changeProgress} defaultValue="0" ref={progressBar}/>
+           <input type="range" id="range" onChange={changeProgress} ref={progressBar} value={currentTime}/>
 
            <p className="duration">{(duration && !isNaN(duration)) ? calculateTime(duration) : "00:00"}</p>
         </div>

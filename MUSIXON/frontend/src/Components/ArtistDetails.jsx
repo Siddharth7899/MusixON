@@ -23,6 +23,16 @@ function ArtistDetails({songList}) {
     artistDetail = arr[0];
   }
   // console.log(artistData);
+
+  const calculateTime = (sec) =>{
+    const minutes = Math.floor(sec/60);
+    const fminutes = minutes<10 ? `0${minutes}`:minutes;
+    const seconds = Math.floor(sec%60);
+    const fseconds = seconds<10 ? `0${seconds}`:seconds;
+    const ftime = `${fminutes}:${fseconds}`;
+    return ftime;
+  }
+
   const handleSong = (i) =>{
     let arr = [];
     artistData.forEach((song)=>{
@@ -64,18 +74,21 @@ function ArtistDetails({songList}) {
                 <div className="count">{index + 1}</div>
                 <div className="song">
                   <div className="img">
-                    <img src={obj.attributes.artwork.url} alt="pic" />
+                    <img src={obj?.attributes?.artwork?.url} alt="pic" />
                   </div>
 
                   <div className="content-section">
                     <p className="songName" onClick={()=>handleSong(index)}>
                       {obj.attributes.name}
-                      <span className="singerName">{obj.attributes.artistName}</span>
+                      <span className="singerName">{obj?.attributes?.artistName}</span>
                     </p>
+                    
+
 
                     <div
                       className="loved"
                     >
+                        <p id="duration">{calculateTime((obj?.attributes?.durationInMillis)/1000)}</p>
                         <i id="fill-heart">
                           <FaHeart />
                         </i>

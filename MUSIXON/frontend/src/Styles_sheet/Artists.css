@@ -66,7 +66,7 @@
 
 .artist-container .artist-section .artist-card{
     display: flex;
-    height: 240px;
+    min-height: 240px;
     justify-content: space-between;
     align-items: center;
     overflow-x: scroll;
@@ -112,7 +112,6 @@
 
 .artist-container .artist-section .artist-card .artist img:hover+i{
   font-size: 38px;
-  /* transition: 0.2s ease; */
 }
 
 .artist-container .artist-section .artist-card .artist #name{
@@ -130,7 +129,6 @@
 .artist-container .artist-section .artist-card .artist:hover{
     background-color: black;
     cursor: pointer;
-    transition: 0.3s ease-in;
     transform:scale(1.02);
 }
 
@@ -322,7 +320,15 @@
 
 .artist-container .musicList .song-container .songs .song .content-section .loved {
     margin-right: 24px;
+    display: flex;
+    align-items: center;
 }
+
+.artist-container .musicList .song-container .songs .song .content-section .loved #duration{
+    margin-right: 12px;
+    margin-bottom: 4px;
+}
+
 .artist-container .musicList .song-container .songs .song .content-section .loved #fill-heart{
     color: green;
 }

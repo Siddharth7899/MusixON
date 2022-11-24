@@ -22,21 +22,16 @@ const NavBarList = [
     },
     {
         id : 2,
-        icon : <FcSearch />,
-        name : "Search"
-    },
-    {
-        id : 3,
         icon : <FcMusic />,
         name : "Artists"
     },
     {
-        id : 4,
+        id : 3,
         icon : <FcLike />,
         name : "Liked Songs"
     },
     {
-        id : 5,
+        id : 4,
         icon : <FcAddDatabase/>,
         name : "CreatePlaylist"
     }

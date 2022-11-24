@@ -8,7 +8,7 @@ import Error from "../assets/Error";
 
 function Trending({songArray}){
   const [text,setText] = useState("See All");
-  const [size,setSize] = useState(6);
+  const [size,setSize] = useState(7);
 
   const {data,isFetching,error} = useGetTopChartsQuery();
   if(isFetching) return <Loader title="Loading Trending Songs"/>
@@ -34,7 +34,7 @@ function Trending({songArray}){
       setSize(data.length);
     }else{
       setText("See All")
-      setSize(6);
+      setSize(7);
     }
   }
 

@@ -1,145 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useGetSongsBySearchQuery } from "../redux/services/ShazamCore";
+import Loader from "../assets/Loader";
+import Error from "../assets/Error";
 import "../Styles_sheet/Search.css";
-import { BsSearch } from "react-icons/bs";
-import { FaHeart } from "react-icons/fa";
-import { FiHeart } from "react-icons/fi";
-import { Cookies, useCookies } from "react-cookie";
-import axios from "axios";
+import { BsFillPlayCircleFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
-function Search({ songList ,userId}) {
-  const [allSongs, setAllSongs] = useState(null);
-  const [searched, setSearched] = useState("");
-  const [cookies, removeCookies] = useCookies([]);
-  let arr = [];
-  const [rmvIdx,setrmvIdx] = useState([]);
-  const [isLiked,setIsLiked] = useState();
-  
-  useEffect(()=>{
-    const allPara = document
-    .querySelector(".search-container .search-display-section")
-    .querySelectorAll(".songName");
+function Search({ songList, userId }) {
+  /*
 
-    function changeActive() {
-      allPara.forEach((i) => i.classList.remove("active"));
-      this.classList.add("active");
-    }
-    allPara.forEach((i) => i.addEventListener("click", changeActive));
-  },[])
-
-  useEffect(() => {
-    setAllSongs(arr);
-  },[]);
-
-  const handleCurrSong = (obj) => {
-    let arr = [];
-    arr.push(obj);
-    return songList(arr);
-  };
-
-  useEffect(() => {
-    const func = async () => {
-      if (!cookies.jwt) {
-        console.log("user not present");
-      } else {
-        const { data } = await axios.post(
-          "http://localhost:5000/giveLikedSong",
-          { id: userId },
-          { withCredentials: true }
-        );
-        let a = data.likedSongList;
-        setIsLiked(()=>a);
-      }
-    };
-    func();
-  }, [cookies]);
-
-  const addToLike = async(id,indx,song_name,song_src,song_img_src,singer_name,fav)=>{
-    const{data} = await axios.post("http://localhost:5000/addToLikedSong",{
-      id,indx,song_name,song_src,song_img_src,singer_name,fav
-    },{
-      withCredentials:true,
-    });
-    console.log(data);
-  }
-
-  const removeLike = async(id,song_name)=>{
-    const{data} = await axios.post("http://localhost:5000/removeFromLiked",{
-      id,song_name
-    },{
-      withCredentials:true,
-    });
-    console.log(data);
-  }
-
-  const changeFavourite = async(idx) => {
-    let isPresentInDB = false;
-
-    isLiked.forEach((ele)=>{
-      if(ele.indx===idx){
-        if(ele.fav) isPresentInDB = true;
-      }
-    })
-    
-    rmvIdx.forEach((ele)=>{
-      if(ele===idx) isPresentInDB = false;
-    })
-
-    allSongs.forEach((sng) => {
-      if (sng.idx === idx) {
-        console.log("found it   --> ");
-        if(sng.fav || isPresentInDB){
-          // remove from favourit list...
-          sng.fav=false;
-          let arr = rmvIdx;
-          arr.push(idx);
-          setrmvIdx(()=>arr);
-          removeLike(userId,sng.song_name);
-        }
-        else{
-          // add to favourit list..
-          let ind=0;
-          rmvIdx.forEach((ele)=>{
-            if(ele===idx){
-              let a = rmvIdx;
-              a.splice(ind,1);
-              setrmvIdx(()=>a);
-            }
-            ind+=1;
-          })
-          sng.fav=true;
-          addToLike(userId,sng.idx,sng.song_name,sng.song_src,sng.song_img_src,sng.singer_name,true);
-        }
-      }
-    });
-    setAllSongs([...allSongs]);
-  };
-
-  const checkIsLiked = (idx) =>{
-    let value = false;
-    isLiked?.forEach((ele)=>{
-      if(ele.indx===idx){
-        if(ele.fav) value = true;
-      }
-    })
-    rmvIdx?.forEach((ele)=>{
-      if(ele===idx){
-        console.log(idx);
-        value=false;
-      }
-    })
-    return value;
-  }
-
-  //Regex filter method for search
-
-  const includeMethod = (nam,str) =>{
-    var val=0;
-    nam = nam?.substring(0,5).toLowerCase();
-    str = str?.substring(0,5).toLowerCase();
-    if(nam.includes(str)) val=1;
-    return val;
-  }
-
+  //Regex filter method
   const regexMethod = (nam,str) =>{
     var val=0;
     nam = nam.substring(0,5).toLowerCase();
@@ -154,69 +25,117 @@ function Search({ songList ,userId}) {
     return val;
   }
 
+  allSongs.filter((value) => {
+    if (searched === "") return null;
+      else if(includeMethod(value?.song_name,searched) || regexMethod(value?.song_name,searched)){
+        return value;
+      }
+    }).map((value, index) => {
+  */
+
+  const [textSong, setTextSong] = useState("See All");
+  const [sizeSong, setSizeSong] = useState(7);
+  const [textArtist, setTextArtist] = useState("See All");
+  const [sizeArtist, setSizeArtist] = useState(7);
+  const { searchTerm } = useParams();
+  const { data, isFetching, error } = useGetSongsBySearchQuery(searchTerm);
+  if (isFetching) return <Loader />;
+  if (error) return <Error />;
+
+  const songs = data?.tracks?.hits?.map((song) => song.track);
+  const artist = data?.artists?.hits?.map((song) => song.artist);
+
+  //console.log(songs);
+  // console.log(artist);
+
+  const handleClick = (ele) => {
+    if (ele === "song") {
+      if (textSong === "See All") {
+        setTextSong("See Less");
+        setSizeSong(songs.length);
+      } else {
+        setTextSong("See All");
+        setSizeSong(7);
+      }
+    } else {
+      if (textArtist === "See All") {
+        setTextArtist("See Less");
+        setSizeArtist(songs.length);
+      } else {
+        setTextArtist("See All");
+        setSizeArtist(7);
+      }
+    }
+  };
+
+  const handleSong = (i) => {
+    let arr = [];
+    songs.forEach((song) => {
+      let obj = {
+        idx: `${song.artists ? song.artists[0].adamid : null}`,
+        singer_name: song?.subtitle,
+        song_name: song?.title,
+        song_src: `${song.hub.actions ? song.hub.actions[1].uri : null}`,
+        song_img_src: song?.images?.coverart,
+      };
+      arr.push(obj);
+    });
+    return songList(arr, i);
+  };
+
   return (
     <div className="search-container">
-      <div className="input-container">
-        <input
-          type="text"
-          placeholder="Search Songs Here..."
-          onChange={(event) => {
-            setSearched(event.target.value);
-          }}
-        />
+      <h2 id="head-search" style={{ marginTop: "36px" }}>
+        Best Songs of {searchTerm}
+        <span onClick={() => handleClick("song")}>{textSong}</span>
+      </h2>
+      <div className="song-result">
+        <div className="song-card">
+          {songs &&
+            songs.slice(0, sizeSong).map((obj, index) => (
+              <div
+                className="songs"
+                key={obj.key}
+                onClick={() => handleSong(index)}
+              >
+                <img src={obj.images.coverart} alt="pic" />
+                <i>
+                  <BsFillPlayCircleFill />
+                </i>
+                <h3 id="name">{obj.title}</h3>
+                <h3 id="singer">{obj.subtitle}</h3>
+              </div>
+            ))}
+        </div>
       </div>
-      <div className="search-display-section">
-        {searched ? (
-          <div className="title-sec">
-            <h3>Best Matches</h3>
-          </div>
+      <h2 id="head-search" style={{ marginTop: "54px" }}>
+        Best Artist of {searchTerm}
+        {artist.length > 7 ? (
+          <span onClick={() => handleClick("artist")}>{textArtist}</span>
         ) : null}
-        {allSongs &&
-          allSongs
-            .filter((value) => {
-              if (searched === "") return null;
-              else if(includeMethod(value?.song_name,searched) || regexMethod(value?.song_name,searched)){
-                return value;
-              }
-            })
-            .map((value, index) => {
-              return (
-                <div className="song-container">
-                  <div className="songs">
-                    <div className="count">{index + 1}</div>
-                    <div className="song">
-                      <div className="img">
-                        <img src={value?.song_img_src} alt="pic" />
-                      </div>
-
-                      <div className="content-section">
-                        <p
-                          className="songName"
-                          onClick={() => handleCurrSong(value)}
-                        >
-                          {value?.song_name}
-                          <span className="singerName">
-                            {value?.singer_name}
-                          </span>
-                        </p>
-
-                        <div className="loved" onClick={() => changeFavourite(value?.idx)}>
-                          { (value?.fav || checkIsLiked(value?.idx)===true) ? (
-                            <i id="fill-heart">
-                              <FaHeart />
-                            </i>
-                          ) : (
-                            <i>
-                              <FiHeart />
-                            </i>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+      </h2>
+      <div className="song-result">
+        <div className="song-card">
+          {artist &&
+            artist.slice(0, sizeArtist).map((obj, index) => (
+              <Link to={`/artists/${obj.adamid}`}>
+                <div className="songs" key={index}>
+                  <img
+                    src={
+                      obj.avatar
+                        ? obj.avatar
+                        : "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8c2luZ2VyfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+                    }
+                    alt="pic"
+                  />
+                  <i>
+                    <BsFillPlayCircleFill />
+                  </i>
+                  <h3 id="name">{obj.name}</h3>
                 </div>
-              );
-            })}
+              </Link>
+            ))}
+        </div>
       </div>
     </div>
   );

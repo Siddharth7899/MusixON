@@ -8,6 +8,7 @@ import LikedSongs from "./Components/LikedSongs";
 import CreateAccount from "./Components/CreateAccount";
 import Search from "./Components/Search";
 import ArtistDetails from "./Components/ArtistDetails";
+import AroundYou from "./Components/AroundYou";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Cookies, useCookies } from "react-cookie";
 import axios from "axios";
@@ -64,7 +65,7 @@ function App() {
             let recentArr = [];
             for (
               let i = 0;
-              i < data.guest.recentlyPlayedSong.length && i < 12;
+              i < data.guest.recentlyPlayedSong.length && i < 14;
               i++
             ) {
               recentArr.push(data.guest.recentlyPlayedSong[i]);
@@ -133,12 +134,16 @@ function App() {
               element={<LikedSongs songList={handleSongList} userId={userId} />}
             />
             <Route
-              path="Search"
+              path="/Search/:searchTerm"
               element={<Search songList={handleSongList} userId={userId} />}
             />
             <Route 
               path="/Artists/:id"
               element={<ArtistDetails songList={handleSongList}/>}
+            />
+            <Route 
+              path="/Home/AroundYou"
+              element={<AroundYou songList={handleSongList}/>}
             />
           </Routes>
         ) : (

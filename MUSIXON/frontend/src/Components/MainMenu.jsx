@@ -12,11 +12,20 @@ import { Link,Outlet } from "react-router-dom";
 import Recently from './Recently';
 import Trending from './Trending';
 import { Cookies, useCookies } from "react-cookie";
+import {useNavigate} from "react-router-dom";
+import {FiSearch} from "react-icons/fi";
 
 function MainMenu({userId,songList,name,recentSongsList,logout}) {
+  const navigate = useNavigate();
   const[songs,setSongs] = useState(null);
   const [cookies,setCookies,removeCookies] = useCookies([]);
   const [isLogout,setLogout] = useState(false);
+  const [searchTerm,setSearchTerm] = useState("");
+
+  const handleSubmit =(e)=>{
+    e.preventDefault();
+    navigate(`/search/${searchTerm}`);
+  }
 
   //slider state hook
   const[slideIndex,setSlideIndex] = useState(1);
@@ -55,6 +64,10 @@ function MainMenu({userId,songList,name,recentSongsList,logout}) {
     <div className="mn_menu">
       <div className="sliderContainer">
          <div className="topEffect">
+         <form onSubmit={handleSubmit}>
+         <i><FiSearch /></i>
+         <input className="search-input" type="text" placeholder="What do you want to hear!!" onChange={(e)=>setSearchTerm(e.target.value)}/>
+         </form>
          <div className="lg-sg">
            <a href="#" onClick={()=>setLogout(prevValue => !prevValue)}>{name?name:"MusixON"}</a>
            { isLogout ? <a href="#" id="logout-btn" onClick={handleLogout}>Logout</a> : null}
@@ -67,15 +80,15 @@ function MainMenu({userId,songList,name,recentSongsList,logout}) {
 
              <div className="slideContent">
                  <div className="middle">
-                    <i onClick={prevSlide}><FaArrowCircleLeft/></i>
+                    {/* <i onClick={prevSlide}><FaArrowCircleLeft/></i> */}
                     <h1>{obj.text}</h1>
-                    <i onClick={nextSlide}><FaArrowCircleRight/></i>
+                    {/* <i onClick={nextSlide}><FaArrowCircleRight/></i> */}
                  </div>
                  <div className="bottom">
-                    <a href="#" id="btm1">
+                    <Link id="btm1" to={`/Home/AroundYou`}>
                       <i><BsFillPlayCircleFill/></i>
                       <span>Play</span>
-                    </a>
+                    </Link>
                     {/* <a href="#" id="btm2">
                       <i><FiCheck/></i>
                       <span>Follow</span>
