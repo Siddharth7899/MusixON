@@ -114,6 +114,10 @@
   font-size: 38px;
 }
 
+.artist-container .artist-section .artist-card .artist i:hover{
+    font-size: 38px;
+}
+
 .artist-container .artist-section .artist-card .artist #name{
     color: white;
     font-size: 18px;

@@ -98,10 +98,10 @@ function Search({ songList, userId }) {
                 key={obj.key}
                 onClick={() => handleSong(index)}
               >
-                <img src={obj.images.coverart} alt="pic" />
-                <i>
+                <img src={obj?.images?.coverart? obj.images.coverart : "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8c2luZ2VyfGVufDB8fDB8fA%3D%3D&w=1000&q=80"} alt="pic" />
+                <Link to={`/songs/${obj.key}`}>
                   <BsFillPlayCircleFill />
-                </i>
+                </Link>
                 <h3 id="name">{obj.title}</h3>
                 <h3 id="singer">{obj.subtitle}</h3>
               </div>

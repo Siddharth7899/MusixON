@@ -9,6 +9,7 @@ import CreateAccount from "./Components/CreateAccount";
 import Search from "./Components/Search";
 import ArtistDetails from "./Components/ArtistDetails";
 import AroundYou from "./Components/AroundYou";
+import SongDetails from "./Components/SongDetails";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Cookies, useCookies } from "react-cookie";
 import axios from "axios";
@@ -144,6 +145,10 @@ function App() {
             <Route 
               path="/Home/AroundYou"
               element={<AroundYou songList={handleSongList}/>}
+            />
+            <Route 
+              path="/songs/:songid"
+              element={<SongDetails />}
             />
           </Routes>
         ) : (

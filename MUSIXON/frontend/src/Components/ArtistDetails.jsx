@@ -9,6 +9,8 @@ import {GoPlay} from "react-icons/go";
 import {useGetArtistDetailsQuery} from "../redux/services/ShazamCore";
 import Loader from "../assets/Loader";
 import Error from "../assets/Error";
+import {Link} from "react-router-dom";
+import {BsThreeDotsVertical} from "react-icons/bs";
 
 function ArtistDetails({songList}) {
   const {id : artistId} = useParams();
@@ -22,7 +24,7 @@ function ArtistDetails({songList}) {
     var arr = Object.values(data?.artists);
     artistDetail = arr[0];
   }
-  // console.log(artistData);
+  console.log(artistData);
 
   const calculateTime = (sec) =>{
     const minutes = Math.floor(sec/60);
@@ -50,7 +52,7 @@ function ArtistDetails({songList}) {
   return (
     <div className="artist-container">
       <div className="top-section">
-        <img src={artistDetail?.attributes?.artwork?.url} alt="pic" />
+        <img src={artistDetail?.attributes?.artwork?.url ? artistDetail?.attributes?.artwork?.url : "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8c2luZ2VyfGVufDB8fDB8fA%3D%3D&w=1000&q=80"} alt="pic" />
         <div className="content">
           <div className="top-content">
             <i>
@@ -74,21 +76,18 @@ function ArtistDetails({songList}) {
                 <div className="count">{index + 1}</div>
                 <div className="song">
                   <div className="img">
-                    <img src={obj?.attributes?.artwork?.url} alt="pic" />
+                    <img src={obj?.attributes?.artwork?.url? obj?.attributes?.artwork?.url : null} alt="pic" />
                   </div>
 
                   <div className="content-section">
                     <p className="songName" onClick={()=>handleSong(index)}>
-                      {obj.attributes.name}
-                      <span className="singerName">{obj?.attributes?.artistName}</span>
+                      {obj?.attributes?.name? obj?.attributes?.name : "songName"}
+                      <span className="singerName">{obj?.attributes?.artistName?obj?.attributes?.artistName:"singerName"}</span>
                     </p>
-                    
-
-
                     <div
                       className="loved"
                     >
-                        <p id="duration">{calculateTime((obj?.attributes?.durationInMillis)/1000)}</p>
+                        { obj?.attributes?.durationInMillis ? <p id="duration">{calculateTime((obj?.attributes?.durationInMillis)/1000)}</p> : null}
                         <i id="fill-heart">
                           <FaHeart />
                         </i>

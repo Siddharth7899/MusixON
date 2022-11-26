@@ -69,6 +69,20 @@
     width:150px;
 }
 
+.search-container .song-result .song-card .songs a{
+    position: absolute;
+    color: rgb(0, 101, 0);
+    font-size: 0px;  
+}
+
+.search-container .song-result .song-card .songs img:hover+a{
+    font-size: 38px;
+}
+
+.search-container .song-result .song-card .songs a:hover{
+    font-size: 38px; 
+}
+
 .search-container .song-result .song-card .songs i{
     position: absolute;
     color: rgb(0, 101, 0);
@@ -81,6 +95,10 @@
 
 .search-container .song-result .song-card .songs img:hover+i{
     font-size: 38px;
+}
+
+.search-container .song-result .song-card .songs i:hover{
+    font-size: 38px; 
 }
 
 .search-container .song-result .song-card .songs #name{

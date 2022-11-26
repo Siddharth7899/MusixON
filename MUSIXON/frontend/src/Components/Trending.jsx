@@ -5,6 +5,8 @@ import {FaArrowCircleLeft} from "react-icons/fa";
 import {FaArrowCircleRight} from "react-icons/fa";
 import Loader from "../assets/Loader";
 import Error from "../assets/Error";
+import {Link} from "react-router-dom";
+import {BsThreeDotsVertical} from "react-icons/bs";
 
 function Trending({songArray}){
   const [text,setText] = useState("See All");
@@ -17,17 +19,17 @@ function Trending({songArray}){
     let arr = [];
     data.forEach((song)=>{
       let obj = {
-        idx : song?.artists[0]?.adamid,
+        idx : `${song.artists? song.artists[0].adamid : null}`,
         singer_name : song?.subtitle,
         song_name : song?.title,
-        song_src : song?.hub?.actions[1]?.uri,
+        song_src : `${song.hub.actions? song.hub.actions[1].uri : null}`,
         song_img_src : song?.share?.image
       }
       arr.push(obj);
     })
     return songArray(arr,i);
   }
-
+  // console.log(data);
   const handleAllTrendingSongs = () =>{
     if(text==="See All"){
       setText("See Less")
@@ -48,10 +50,11 @@ function Trending({songArray}){
            {
             data && data.slice(0,size).map((obj,idx)=>(
                <div className="songs" key={obj.key} onClick={()=>handleSong(obj,idx)}>
-               <img src={obj.images.coverart} alt="pic" />
-               <i><BsFillPlayCircleFill/></i>
-               <h3 id="name">{obj.title}</h3>
-               <h3 id="singer">{obj.subtitle}</h3>
+               <img src={obj?.images?.coverart} alt="pic" />
+               <Link to={`/songs/${obj.key}`}><BsFillPlayCircleFill/></Link>
+               <h3 id="name">{obj?.title}</h3>
+               <h3 id="singer">{obj?.subtitle}</h3>
+
                </div>
             ))
            }

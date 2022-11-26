@@ -1,5 +1,4 @@
-import React, { useState,useEffect } from 'react'
-import {BsFillPlayCircleFill} from "react-icons/bs"
+import React, { useState,useEffect } from 'react';
 
 function Recently({songArray,recentList}){
 
@@ -18,7 +17,6 @@ function Recently({songArray,recentList}){
             recentList && recentList.map((obj,idx)=>(
                <div className="songs" key={idx} onClick={()=>handleSong(obj)}>
                <img src={obj.song_img_src} alt="pic" />
-               <i><BsFillPlayCircleFill/></i>
                <h3 id="name">{obj.song_name}</h3>
                <h3 id="singer">{obj.singer_name}</h3>
                </div>

@@ -79,13 +79,13 @@ function Artists({ songList, userId }) {
         <div className="artist-card">
           {data &&
             data.slice(0, size).map((obj, idx) => (
-              <Link to={`/artists/${obj.artists[0].adamid}`} key={idx}>
+              <Link to={`/artists/${obj?.artists? obj.artists[0].adamid : null}`} key={idx}>
                 <div className="artist">
-                  <img src={obj.images.background} alt="pic" />
+                  <img src={obj?.images?.background ? obj.images.background : ""} alt="pic" />
                   <i>
                     <BsFillPlayCircleFill />
                   </i>
-                  <h3 id="name">{obj.subtitle}</h3>
+                  <h3 id="name">{obj?.subtitle? obj.subtitle : "songName"}</h3>
                 </div>
               </Link>
             ))}

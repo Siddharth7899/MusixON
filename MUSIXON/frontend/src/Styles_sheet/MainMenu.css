@@ -254,13 +254,10 @@
     margin-left: 12px;
 }
 
-.mn_menu .songs-container .songs-row .songs-card .songs i{
+.mn_menu .songs-container .songs-row .songs-card .songs a{
     position: absolute;
-    /* font-size: 32px; */
     color: rgb(0, 101, 0);
     font-size: 0px;
-    margin-top: 90px;
-    margin-left: 120px;
 }
 
 
@@ -278,12 +275,11 @@
     filter: grayscale(10);
 }
 
-.mn_menu .songs-container .songs-row .songs-card .songs img:hover + i{
+.mn_menu .songs-container .songs-row .songs-card .songs img:hover + a{
   font-size: 32px;
-  transition: 0.2s ease;
 }
 
-.mn_menu .songs-container .songs-row .songs-card .songs i:hover{
+.mn_menu .songs-container .songs-row .songs-card .songs a:hover{
     font-size: 32px;
 }
 
